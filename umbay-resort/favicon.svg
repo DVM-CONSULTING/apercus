@@ -1,0 +1,11 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!--
+  Favicon par défaut du socle : marque neutre (bâti), sans nom ni logo inventé.
+  Un site qui fournit design.logo dans sa config utilise son logo à la place.
+  Fichier local : zéro requête externe.
+-->
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 64 64" role="img" aria-label="Icône du site">
+  <rect width="64" height="64" rx="12" fill="#16212b"/>
+  <path d="M14 30.5 32 16l18 14.5" fill="none" stroke="#ffffff" stroke-width="5" stroke-linecap="round" stroke-linejoin="round"/>
+  <path d="M19 32v16h26V32" fill="none" stroke="#ffffff" stroke-width="5" stroke-linecap="round" stroke-linejoin="round"/>
+</svg>
