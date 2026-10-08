@@ -1,99 +1,18 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9" xmlns:xhtml="http://www.w3.org/1999/xhtml">
-  <url>
-    <loc>https://umbay-resort.staging.local/</loc>
-    <xhtml:link rel="alternate" hreflang="fr" href="https://umbay-resort.staging.local/"/>
-    <xhtml:link rel="alternate" hreflang="en" href="https://umbay-resort.staging.local/en/"/>
-    <xhtml:link rel="alternate" hreflang="x-default" href="https://umbay-resort.staging.local/"/>
-    <lastmod>2026-10-08</lastmod>
-    <priority>1.0</priority>
-  </url>
-  <url>
-    <loc>https://umbay-resort.staging.local/en/</loc>
-    <xhtml:link rel="alternate" hreflang="fr" href="https://umbay-resort.staging.local/"/>
-    <xhtml:link rel="alternate" hreflang="en" href="https://umbay-resort.staging.local/en/"/>
-    <xhtml:link rel="alternate" hreflang="x-default" href="https://umbay-resort.staging.local/"/>
-    <lastmod>2026-10-08</lastmod>
-    <priority>1.0</priority>
-  </url>
-  <url>
-    <loc>https://umbay-resort.staging.local/services/</loc>
-    <xhtml:link rel="alternate" hreflang="fr" href="https://umbay-resort.staging.local/services/"/>
-    <xhtml:link rel="alternate" hreflang="en" href="https://umbay-resort.staging.local/en/services/"/>
-    <xhtml:link rel="alternate" hreflang="x-default" href="https://umbay-resort.staging.local/services/"/>
-    <lastmod>2026-10-08</lastmod>
-    <priority>0.9</priority>
-  </url>
-  <url>
-    <loc>https://umbay-resort.staging.local/en/services/</loc>
-    <xhtml:link rel="alternate" hreflang="fr" href="https://umbay-resort.staging.local/services/"/>
-    <xhtml:link rel="alternate" hreflang="en" href="https://umbay-resort.staging.local/en/services/"/>
-    <xhtml:link rel="alternate" hreflang="x-default" href="https://umbay-resort.staging.local/services/"/>
-    <lastmod>2026-10-08</lastmod>
-    <priority>0.9</priority>
-  </url>
-  <url>
-    <loc>https://umbay-resort.staging.local/realisations/</loc>
-    <xhtml:link rel="alternate" hreflang="fr" href="https://umbay-resort.staging.local/realisations/"/>
-    <xhtml:link rel="alternate" hreflang="en" href="https://umbay-resort.staging.local/en/realisations/"/>
-    <xhtml:link rel="alternate" hreflang="x-default" href="https://umbay-resort.staging.local/realisations/"/>
-    <lastmod>2026-10-08</lastmod>
-    <priority>0.7</priority>
-  </url>
-  <url>
-    <loc>https://umbay-resort.staging.local/en/realisations/</loc>
-    <xhtml:link rel="alternate" hreflang="fr" href="https://umbay-resort.staging.local/realisations/"/>
-    <xhtml:link rel="alternate" hreflang="en" href="https://umbay-resort.staging.local/en/realisations/"/>
-    <xhtml:link rel="alternate" hreflang="x-default" href="https://umbay-resort.staging.local/realisations/"/>
-    <lastmod>2026-10-08</lastmod>
-    <priority>0.7</priority>
-  </url>
-  <url>
-    <loc>https://umbay-resort.staging.local/contact/</loc>
-    <xhtml:link rel="alternate" hreflang="fr" href="https://umbay-resort.staging.local/contact/"/>
-    <xhtml:link rel="alternate" hreflang="en" href="https://umbay-resort.staging.local/en/contact/"/>
-    <xhtml:link rel="alternate" hreflang="x-default" href="https://umbay-resort.staging.local/contact/"/>
-    <lastmod>2026-10-08</lastmod>
-    <priority>0.9</priority>
-  </url>
-  <url>
-    <loc>https://umbay-resort.staging.local/en/contact/</loc>
-    <xhtml:link rel="alternate" hreflang="fr" href="https://umbay-resort.staging.local/contact/"/>
-    <xhtml:link rel="alternate" hreflang="en" href="https://umbay-resort.staging.local/en/contact/"/>
-    <xhtml:link rel="alternate" hreflang="x-default" href="https://umbay-resort.staging.local/contact/"/>
-    <lastmod>2026-10-08</lastmod>
-    <priority>0.9</priority>
-  </url>
-  <url>
-    <loc>https://umbay-resort.staging.local/mentions-legales/</loc>
-    <xhtml:link rel="alternate" hreflang="fr" href="https://umbay-resort.staging.local/mentions-legales/"/>
-    <xhtml:link rel="alternate" hreflang="en" href="https://umbay-resort.staging.local/en/mentions-legales/"/>
-    <xhtml:link rel="alternate" hreflang="x-default" href="https://umbay-resort.staging.local/mentions-legales/"/>
-    <lastmod>2026-10-08</lastmod>
-    <priority>0.2</priority>
-  </url>
-  <url>
-    <loc>https://umbay-resort.staging.local/en/mentions-legales/</loc>
-    <xhtml:link rel="alternate" hreflang="fr" href="https://umbay-resort.staging.local/mentions-legales/"/>
-    <xhtml:link rel="alternate" hreflang="en" href="https://umbay-resort.staging.local/en/mentions-legales/"/>
-    <xhtml:link rel="alternate" hreflang="x-default" href="https://umbay-resort.staging.local/mentions-legales/"/>
-    <lastmod>2026-10-08</lastmod>
-    <priority>0.2</priority>
-  </url>
-  <url>
-    <loc>https://umbay-resort.staging.local/politique-confidentialite/</loc>
-    <xhtml:link rel="alternate" hreflang="fr" href="https://umbay-resort.staging.local/politique-confidentialite/"/>
-    <xhtml:link rel="alternate" hreflang="en" href="https://umbay-resort.staging.local/en/politique-confidentialite/"/>
-    <xhtml:link rel="alternate" hreflang="x-default" href="https://umbay-resort.staging.local/politique-confidentialite/"/>
-    <lastmod>2026-10-08</lastmod>
-    <priority>0.2</priority>
-  </url>
-  <url>
-    <loc>https://umbay-resort.staging.local/en/politique-confidentialite/</loc>
-    <xhtml:link rel="alternate" hreflang="fr" href="https://umbay-resort.staging.local/politique-confidentialite/"/>
-    <xhtml:link rel="alternate" hreflang="en" href="https://umbay-resort.staging.local/en/politique-confidentialite/"/>
-    <xhtml:link rel="alternate" hreflang="x-default" href="https://umbay-resort.staging.local/politique-confidentialite/"/>
-    <lastmod>2026-10-08</lastmod>
-    <priority>0.2</priority>
-  </url>
+<urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9">
+  <url><loc>https://umbayhotel.com/</loc></url>
+  <url><loc>https://umbayhotel.com/contact/</loc></url>
+  <url><loc>https://umbayhotel.com/en/</loc></url>
+  <url><loc>https://umbayhotel.com/en/contact/</loc></url>
+  <url><loc>https://umbayhotel.com/en/gallery/</loc></url>
+  <url><loc>https://umbayhotel.com/en/legal-notice/</loc></url>
+  <url><loc>https://umbayhotel.com/en/privacy/</loc></url>
+  <url><loc>https://umbayhotel.com/en/stay/</loc></url>
+  <url><loc>https://umbayhotel.com/en/thank-you/</loc></url>
+  <url><loc>https://umbayhotel.com/en/the-place/</loc></url>
+  <url><loc>https://umbayhotel.com/galerie/</loc></url>
+  <url><loc>https://umbayhotel.com/le-lieu/</loc></url>
+  <url><loc>https://umbayhotel.com/mentions-legales/</loc></url>
+  <url><loc>https://umbayhotel.com/politique-confidentialite/</loc></url>
+  <url><loc>https://umbayhotel.com/sejourner/</loc></url>
 </urlset>
