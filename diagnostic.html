@@ -1,0 +1,51 @@
+<!doctype html>
+<html lang="fr">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<meta name="robots" content="noindex,nofollow">
+<title>Diagnostic animations — DVM Consulting</title>
+<style>
+  body { font: 17px/1.5 system-ui, sans-serif; max-width: 34rem; margin: 2rem auto; padding: 0 1rem; color: #2b2622; background: #f5efe6; }
+  h1 { font-size: 1.4rem; }
+  .ligne { display: flex; justify-content: space-between; gap: 1rem; padding: .6rem 0; border-bottom: 1px solid #d8cfc2; }
+  .ok { color: #1f6b3a; font-weight: 600; }
+  .ko { color: #a3261b; font-weight: 600; }
+  .boite { width: 3rem; height: 3rem; background: #6b4a2b; margin: 1.5rem 0; }
+  @media (prefers-reduced-motion: no-preference) {
+    .boite { animation: glisse 1.6s ease-in-out infinite alternate; }
+  }
+  @keyframes glisse { to { translate: 12rem 0; } }
+  #verdict { margin-top: 1.5rem; padding: 1rem; background: #fff; border: 2px solid #2b2622; font-weight: 600; }
+</style>
+</head>
+<body>
+<h1>Diagnostic des animations</h1>
+<p>Fais une capture d’écran de cette page et envoie-la.</p>
+<div class="boite" aria-hidden="true"></div>
+<p style="margin-top:-1rem;font-size:.9rem">Le carré ci-dessus doit glisser de gauche à droite.</p>
+<div id="lignes"></div>
+<div id="verdict"></div>
+<script>
+  const reduit = matchMedia('(prefers-reduced-motion: reduce)').matches;
+  const lignes = [
+    ['« Réduire les animations » activé', reduit ? 'OUI' : 'non', !reduit],
+    ['Navigateur Apple (Safari)', navigator.vendor === 'Apple Computer, Inc.' ? 'oui' : 'non', true],
+    ['Animation au défilement (view)', CSS.supports('animation-timeline: view()') ? 'oui' : 'non', true],
+    ['Animation au défilement (scroll)', CSS.supports('animation-timeline: scroll()') ? 'oui' : 'non', true],
+    ['Détection d’entrée à l’écran', 'IntersectionObserver' in window ? 'oui' : 'NON', 'IntersectionObserver' in window],
+  ];
+  const zone = document.getElementById('lignes');
+  for (const [nom, valeur, bon] of lignes) {
+    const d = document.createElement('div');
+    d.className = 'ligne';
+    d.innerHTML = `<span>${nom}</span><span class="${bon ? 'ok' : 'ko'}">${valeur}</span>`;
+    zone.appendChild(d);
+  }
+  document.getElementById('verdict').textContent = reduit
+    ? 'Ton téléphone demande aux sites de ne rien animer (Réglages › Accessibilité › Mouvement › Réduire les animations). Le site respecte ce choix : c’est pour ça que rien ne bouge.'
+    : 'Ton téléphone accepte les animations. Si le carré glisse mais que le site reste immobile, le problème vient du site : envoie-moi cette capture.';
+  document.body.insertAdjacentHTML('beforeend', `<p style="font-size:.8rem;color:#6b5e52;margin-top:1.5rem">${navigator.userAgent}</p>`);
+</script>
+</body>
+</html>
