@@ -438,3 +438,9 @@ body.motion-reduced .scene-service-contact .scene-service-more .icon-arrow{anima
 /* La photo de la flotte s'ouvre comme un rideau, de gauche à droite */
 .company-fleet>a{clip-path:inset(0 calc((1 - var(--reveal,1)) * 100%) 0 0)}
 @media(max-width:720px){.company-points{padding-left:18px}.company-points article::after{left:-22px;top:27px}}
+/* Téléphone : le camion sort du haut de la route (comme d'un tunnel, sans tunnel dessiné) et quitte la route
+   entièrement en bas. La route masque ce qui dépasse (clip-path, pas overflow, pour garder le collant à l'écran). */
+@media(max-width:720px){
+  .route-lane{clip-path:inset(0)}
+  .route-lane-truck{margin:-290px auto -290px}
+}
