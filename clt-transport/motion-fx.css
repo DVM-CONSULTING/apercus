@@ -1,0 +1,440 @@
+/* Motion design de la reprise : titre du premier écran, transitions entre sections, effets de route,
+   effets de chantier, dessins des prestations. Animations réduites : rien ne bouge (règles en fin de fichier). */
+
+/* Premier écran : le titre arrive mot par mot */
+.hero-word{display:inline-block;animation:hero-word .9s cubic-bezier(.2,.75,.15,1) both;animation-delay:calc(.15s + var(--i) * .11s)}
+@keyframes hero-word{from{opacity:0;transform:translateY(.45em) skewY(4deg);filter:blur(6px)}to{opacity:1;transform:none;filter:none}}
+.hero-editorial>p{animation:hero-word .9s cubic-bezier(.2,.75,.15,1) .65s both}
+
+/* Transitions entre sections : les blocs montent et s'éclairent en entrant, à l'aller comme au retour */
+[data-reveal]{opacity:calc(.12 + .88 * var(--reveal, 1));transform:translate3d(0,calc((1 - var(--reveal, 1)) * 56px),0)}
+.journey,.earthworks-section,.networks-section,.services,.news,.company,.contact{box-shadow:0 -34px 60px -26px #000a}
+
+/* Transport : poussière, phare, gyrophare */
+.truck-dust ellipse{fill:#9d8f7c;filter:blur(7px)}
+.journey-arrival .truck-dust ellipse{fill:#aaa79d}
+.truck-headlight{fill:#ffe8a8;mix-blend-mode:screen;filter:blur(6px)}
+.truck-beacon{fill:#ffb21a}
+.truck-beacon-halo{fill:#ffa31a;filter:blur(10px)}
+
+/* Terrassement : laser de niveau, fond de fouille, poussière */
+.earthworks-laser{fill:none;stroke:#ff3b47;stroke-width:2;opacity:.9}
+.earthworks-laser-dot{fill:#ff5a63;filter:drop-shadow(0 0 8px #ff3b47)}
+.earthworks-laser-label path,.earthworks-depth path{fill:none;stroke:#e9ddd4;stroke-width:1.4}
+.earthworks-depth-line{stroke-dasharray:6 6}
+.earthworks-laser-label text,.earthworks-depth text{fill:#efe4da;font:700 15px var(--mono,'Space Mono',monospace);letter-spacing:.06em;paint-order:stroke;stroke:#150e0f;stroke-width:4px}
+.earthworks-dust{fill:#b08d68;filter:blur(9px)}
+
+@media(max-width:720px){.earthworks-laser-label text,.earthworks-depth text{font-size:20px}}
+@media(prefers-reduced-motion:reduce){[data-reveal]{opacity:1;transform:none}.hero-word,.hero-editorial>p{animation:none}}
+body.motion-reduced [data-reveal]{opacity:1;transform:none}
+
+/* Bandeaux d'ambiance vidéo (cachés tant qu'aucune vidéo n'est déposée) */
+.kling-band{position:relative;margin:0;height:min(62svh,620px);overflow:hidden;background:#150e0f}
+.kling-band[hidden]{display:none}
+.kling-band video{position:absolute;inset:0;width:100%;height:100%;object-fit:cover}
+.kling-band::after{content:'';position:absolute;inset:0;background:linear-gradient(180deg,#0b0405 0,transparent 30%,transparent 62%,#0b0405cc 100%)}
+.kling-title{position:absolute;z-index:1;left:var(--gutter);bottom:58px;margin:0;color:#fff;font-weight:800;font-size:clamp(40px,6vw,96px);letter-spacing:-.055em;line-height:.95}
+.kling-band figcaption{position:absolute;z-index:1;left:var(--gutter);right:var(--gutter);bottom:22px;font-size:10px;color:#e4d8cf}
+
+/* Le Reel de CLT, dans « La vie sur le terrain » */
+.news-video{display:grid;grid-template-columns:minmax(220px,340px) minmax(0,1fr);gap:clamp(28px,6vw,90px);align-items:center;margin-top:60px;padding-top:40px;border-top:1px solid #382e30}
+.reel-player{position:relative;margin:0;aspect-ratio:9/16;background:#150e0f;border:1px solid #382e30;overflow:hidden}
+.reel-player video{display:block;width:100%;height:100%;object-fit:cover}
+.reel-toggle{position:absolute;left:12px;bottom:12px;display:inline-flex;align-items:center;gap:8px;min-height:44px;padding:0 14px;border:1px solid #ffffff66;background:#0b0405cc;color:#fff;font-size:11px;cursor:pointer}
+.reel-toggle:hover{background:var(--red);border-color:var(--red)}
+.reel-toggle[hidden]{display:none}
+.news-video-copy>.mono{display:block;font-size:10px;color:#b6adaf;margin-bottom:18px}
+.news-video-copy h3{font-size:clamp(34px,4.4vw,68px);font-weight:800;letter-spacing:-.05em;line-height:.98;margin:0 0 22px}
+.news-video-copy p{color:#b6adaf;font-size:14px;line-height:1.65;max-width:420px}
+.news-video-copy .text-link{margin-top:22px;font-size:12px}
+@media(max-width:720px){.news-video{grid-template-columns:1fr;gap:26px;margin-top:40px}.reel-player{max-width:300px}.news-video-copy h3{font-size:clamp(30px,9vw,46px)}.news-video-copy p{font-size:13px}}
+
+/* « En route avec CLT » : route vue du ciel à droite, présentation à gauche */
+.route{position:relative;height:440svh;min-height:2600px;background:#e8e7e4;color:var(--ink);border-top:1px solid #d4d0cb}
+.route-sticky{position:sticky;top:0;height:100svh;min-height:620px;overflow:hidden}
+.route-world{position:absolute;inset:0;width:100%;height:100%;max-width:none}
+.route-copy{position:relative;z-index:2;height:100%;width:min(46%,600px);padding:34px 0 0 var(--gutter);display:flex;flex-direction:column;background:linear-gradient(90deg,#e8e7e4 72%,#e8e7e400)}
+.route-title{font-size:clamp(44px,5.6vw,96px);line-height:.92;letter-spacing:-.055em;margin-top:42px}
+.route-steps{list-style:none;margin:auto 0 0;padding:0 0 70px;position:relative;min-height:260px}
+.route-steps li{position:absolute;left:0;right:8%;bottom:70px;will-change:opacity,transform}
+.route-steps .mono{display:block;font-size:10px;margin-bottom:14px;color:#c41d2b}
+.route-steps h3{font-size:clamp(24px,2.5vw,38px);font-weight:700;letter-spacing:-.045em;line-height:1.05;margin:0 0 14px}
+.route-steps p{font-size:14px;line-height:1.65;color:#5b5252;max-width:420px}
+.route-steps .text-link{margin-top:18px;font-size:12px}
+.route-marker-text{font:700 22px var(--mono,'Space Mono',monospace);fill:#e32735}
+.route-cab-text{font:800 13px var(--font,Archivo,sans-serif);fill:#18191a;letter-spacing:-.02em}
+.route .section-label .red{color:#c41d2b}
+.route-progress{position:absolute;left:0;right:0;bottom:0;height:3px;background:#d4d0cb;z-index:3}
+.route-progress>span{display:block;height:100%;background:var(--red);transform:scaleX(0);transform-origin:left}
+.route-lane{display:none}
+/* Téléphone : comme une page qui défile, la route en bande étroite à droite et le camion qui y reste */
+@media(max-width:720px){
+  .route{height:auto;min-height:0}
+  .route-sticky{position:relative;height:auto;min-height:0;overflow:visible}
+  .route-world{display:none}
+  .route-copy{width:auto;height:auto;padding:30px calc(var(--gutter) + 92px) 90px var(--gutter);background:none;z-index:auto}
+  .route-title{font-size:clamp(34px,10vw,50px);margin-top:28px}
+  .route-steps{margin:46px 0 0;padding:0;min-height:0;display:grid;gap:0}
+  .route-steps li{position:relative;right:auto;bottom:auto;min-height:58svh;padding:26px 0 40px;border-top:1px solid #cfcbc5}
+  .route-steps li::after{content:'';position:absolute;top:30px;right:-62px;width:14px;height:14px;border-radius:50%;background:var(--red);box-shadow:0 0 0 6px #e3273526;z-index:1}
+  .route-steps h3{font-size:24px}
+  .route-steps p{font-size:14px}
+  .route-lane{display:block;position:absolute;top:0;bottom:0;right:var(--gutter);width:76px;z-index:auto;
+    background:linear-gradient(90deg,#c9c6c0 0 5px,#2b2a2d 5px 9px,#f2efe6 9px 11px,#2b2a2d 11px 65px,#f2efe6 65px 67px,#2b2a2d 67px 71px,#c9c6c0 71px)}
+  .route-lane::before{content:'';position:absolute;top:0;bottom:0;left:37px;width:2px;background:repeating-linear-gradient(180deg,#f2efe6 0 18px,transparent 18px 34px);opacity:.85}
+  .route-lane-truck{position:sticky;z-index:2;top:calc(50svh - 140px);width:58px;margin:120px auto 160px;height:290px}
+  .route-lane-truck svg{display:block;width:100%;height:100%}
+  .route-progress{display:none}
+}
+/* Animations réduites : la page s'écoule normalement, les quatre étapes sont toutes lisibles */
+@media(min-width:721px){
+body.motion-reduced .route{height:auto;min-height:0}
+body.motion-reduced .route-sticky{position:relative;height:auto;min-height:900px}
+body.motion-reduced .route-steps{margin-top:40px;padding-bottom:60px;display:grid;gap:34px}
+body.motion-reduced .route-steps li{position:static;opacity:1;transform:none}
+}
+@media(prefers-reduced-motion:reduce) and (min-width:721px){.route{height:auto;min-height:0}.route-sticky{position:relative;height:auto;min-height:900px}.route-steps{margin-top:40px;padding-bottom:60px;display:grid;gap:34px}.route-steps li{position:static;opacity:1;transform:none}}
+
+/* Terrassement sur téléphone : la scène épinglée en haut, plus grande, les trois étapes défilent dessous */
+.earthworks-flow{display:none}
+@media(max-width:720px){
+  .earthworks-section{height:auto;min-height:0}
+  .earthworks-section .earthworks-sticky,body.motion-reduced .earthworks-section .earthworks-sticky{position:sticky;top:0;z-index:2;height:50svh;min-height:380px;max-height:none;padding-top:22px;box-shadow:0 24px 40px -18px #000c}
+  .earthworks-section .earthworks-copy,.earthworks-section .earthworks-bottom{display:none}
+  .earthworks-section .earthworks-world{top:64px;height:calc(100% - 70px)}
+  .earthworks-flow{display:block;list-style:none;margin:0;padding:0 var(--gutter) 30px;position:relative;z-index:1}
+  .earthworks-flow li{display:flex;flex-direction:column;justify-content:flex-start;padding:34px 0 0;border-top:1px solid #3a2925}
+  .earthworks-flow li[data-flow-step="0"]{min-height:42svh;border-top:0}
+  .earthworks-flow li[data-flow-step="1"]{min-height:66svh}
+  .earthworks-flow li[data-flow-step="2"]{min-height:56svh}
+  .earthworks-flow .mono{font-size:10px;color:#b09e99;margin-bottom:14px}
+  .earthworks-flow h3{font-size:clamp(44px,13vw,64px);font-weight:800;letter-spacing:-.06em;line-height:.95;margin:0 0 16px;color:#f5f0ec}
+  .earthworks-flow p{font-size:14px;line-height:1.6;color:#c4b5b0;max-width:330px}
+}
+
+/* Départ, livraison et réseaux sur téléphone : même principe que le terrassement */
+.scene-flow{display:none}
+@media(max-width:720px){
+  .journey,.networks-section{height:auto;min-height:0}
+  .journey .journey-sticky,body.motion-reduced .journey .journey-sticky{position:sticky;top:0;z-index:2;height:50svh;min-height:380px;padding-top:22px;box-shadow:0 24px 40px -22px #0006}
+  .journey .journey-sticky{background:#e8e7e4}
+  .journey-arrival .journey-sticky{background:#dcded9}
+  .journey .journey-copy,.journey .journey-bottom{display:none}
+  .journey .journey-road{bottom:20%}
+  .journey .landscape{bottom:26%;height:22%}
+  .journey .truck-scene{bottom:calc(20% - 2.4vw)}
+  .networks-section .networks-sticky,body.motion-reduced .networks-section .networks-sticky{position:sticky;top:0;z-index:2;height:56svh;min-height:420px;padding-top:22px;box-shadow:0 24px 40px -18px #000c}
+  .networks-section .networks-copy,.networks-section .networks-sticky>.networks-legend,.networks-section .networks-bottom{display:none}
+  .networks-section .networks-world{top:58px;bottom:6px;height:calc(100% - 64px)}
+  .scene-flow{display:block;list-style:none;margin:0;padding:0 var(--gutter) 30px;position:relative;z-index:1}
+  .scene-flow li{padding:34px 0 0;min-height:48svh}
+  .scene-flow li+li{border-top:1px solid var(--flow-line)}
+  .scene-flow .mono{display:block;font-size:10px;margin-bottom:14px;color:var(--flow-muted)}
+  .scene-flow h3{font-size:clamp(44px,13vw,64px);font-weight:800;letter-spacing:-.06em;line-height:.95;margin:0 0 16px;color:var(--flow-ink)}
+  .scene-flow p{font-size:14px;line-height:1.6;color:var(--flow-text);max-width:330px}
+  .scene-flow-light{--flow-line:#cfcbc5;--flow-muted:#625959;--flow-ink:var(--ink);--flow-text:#5b5252}
+  .scene-flow-dark{--flow-line:#3a2925;--flow-muted:#b09e99;--flow-ink:#f5f0ec;--flow-text:#c4b5b0}
+  .scene-flow .scene-flow-legend{display:grid;grid-template-columns:repeat(2,max-content);gap:12px 22px;margin-top:22px;width:auto}
+  /* Hauteurs des étapes calées sur l'animation (le défilement de chaque étape = sa part de l'animation) */
+  #reseaux .scene-flow li:nth-child(1){min-height:66svh}#reseaux .scene-flow li:nth-child(2){min-height:56svh}#reseaux .scene-flow li:nth-child(3){min-height:50svh}
+}
+
+
+/* Prestations sous les scènes du camion : les cartes glissent sous le porte-engins */
+.journey .journey-bottom{display:none}
+.journey .journey-road{bottom:31%}
+.journey .landscape{bottom:36%}
+.journey .truck-scene{bottom:calc(31% - 2.4vw)}
+.scene-services-desk{position:absolute;left:0;right:0;bottom:34px;z-index:4;overflow:hidden}
+.scene-services-track{list-style:none;margin:0;padding:0 var(--gutter);display:flex;gap:20px;width:max-content;will-change:transform}
+.scene-service{flex:0 0 clamp(360px,44vw,640px);background:#f6f5f3;border:1px solid #cfcbc5;padding:18px 20px 16px;display:flex;flex-direction:column}
+.journey-arrival .scene-service{background:#eef0ec;border-color:#c3c8bf}
+.scene-service-meta{display:flex;justify-content:space-between;gap:12px;font-size:10px;color:#625959;margin-bottom:8px}
+.scene-service-meta .red{color:#c41d2b}
+.scene-service h3{font-size:clamp(22px,1.9vw,30px);font-weight:700;letter-spacing:-.04em;line-height:1.05;margin:0 0 8px}
+.scene-service p{font-size:13px;line-height:1.55;color:#5b5252;flex:1}
+.scene-service .text-link{align-self:flex-start;margin-top:8px;min-height:36px;font-size:12px}
+@media(max-height:820px) and (min-width:721px){.scene-service p{display:none}.journey .journey-road{bottom:25%}.journey .truck-scene{bottom:calc(25% - 2.4vw)}.journey .landscape{bottom:30%}}
+body.motion-reduced .scene-services-track{flex-wrap:wrap;width:auto;transform:none!important}
+body.motion-reduced .scene-service{flex:1 1 300px}
+.journey-more{display:none}
+@media(max-width:720px){
+  .scene-services-desk{display:none}
+  /* Téléphone : pas de cartes en double (le détail est dans « Nos prestations ») ; la scène prend l'écran et avance au défilement. */
+  .journey{height:190svh;min-height:1250px}
+  .journey .journey-sticky{height:100svh;min-height:560px}
+  .journey .journey-copy{display:block;position:relative;margin:clamp(22px,4svh,40px) 0 0;z-index:3}
+  .journey .journey-eyebrow{font-size:10px;margin-bottom:8px}
+  .journey .journey-copy h2{font-size:clamp(46px,13vw,64px);line-height:.95}
+  .journey .journey-copy>p{margin:14px 0 0;max-width:340px;min-height:0;font-size:15px;line-height:1.5;color:#5b5252}
+  .journey .journey-road{bottom:max(23%,150px)}
+  .journey .landscape{bottom:max(28%,190px);height:24%}
+  .journey .truck-scene{bottom:calc(max(23%,150px) - 2.4vw)}
+  .journey-more{display:inline-flex;align-items:center;gap:8px;position:absolute;left:var(--gutter);bottom:max(calc(23% - 96px),40px);z-index:4;min-height:44px;font-size:11px;color:#3d3535;text-decoration:underline;text-underline-offset:.25em}
+  body.motion-reduced .journey{height:auto;min-height:0}
+  body.motion-reduced .journey .journey-sticky{position:relative;height:640px;min-height:0}
+}
+
+/* Prestations détaillées : une scène animée par ligne (service-scenes.js), texte complet pour le référencement */
+.service-content{grid-template-columns:minmax(0,1.15fr) minmax(0,1fr);align-items:center}
+.service-content>div>p+p{margin-top:12px}
+.service-scene{width:100%;max-width:640px;aspect-ratio:5/2;background:#150e0f;border:1px solid #382e30;overflow:hidden;justify-self:start}
+.service-scene svg{display:block;width:100%;height:100%;max-width:none}
+.service[open] .service-scene{animation:service-in .9s cubic-bezier(.2,.75,.15,1) both}
+@keyframes service-in{from{transform:translateY(18px);opacity:0}to{transform:none;opacity:1}}
+.svc-caption{fill:#d9cdc4;font:700 15px var(--mono,'Space Mono',monospace);letter-spacing:.08em;paint-order:stroke;stroke:#0b0405;stroke-width:4px}
+.svc-caption-small{font-size:12px;fill:#f2eadf}
+.service-scene .truck-dust ellipse{fill:#7d7064}
+.service-list-title{font-size:10px;color:#b6adaf;margin-top:18px!important}
+.service-points{margin:10px 0 4px;padding-left:18px;color:var(--muted);font-size:13px;line-height:1.7}
+.service-points li::marker{color:var(--red)}
+.service-name{font-size:clamp(24px,3.4vw,54px);font-weight:500;letter-spacing:-.04em}
+.scene-service-more{display:inline-flex;align-items:center;gap:8px;min-height:32px;font-size:11px;color:#625959;text-decoration:underline;text-underline-offset:.2em}
+.scene-service-more:hover{color:var(--red)}
+@media(max-width:1050px){.service-content{grid-template-columns:1fr}.service-scene{max-width:none}}
+@media(max-width:720px){.service-name{font-size:26px}}
+.service{scroll-margin-top:90px}
+
+/* Photo du haut : cadrée sans object-fit. Safari sur iPhone l'ignorait pendant le zoom et écrasait la photo ;
+   ici l'image garde toujours ses proportions (1562 × 640) et le cadre coupe le surplus. */
+.hero-photograph a{height:clamp(260px,28vw,470px)}
+.hero-photograph img{position:absolute;left:50%;top:80%;width:max(100%,calc(clamp(260px,28vw,470px) * 2.4407));max-width:none;height:auto;aspect-ratio:1562/640;translate:-50% -80%;object-fit:fill}
+@media(max-width:720px){.hero-photograph a{height:270px}.hero-photograph img{left:70%;top:50%;width:max(100%,659px);translate:-70% -50%}}
+
+
+/* Vos questions (tools/seo.py) : même accordéon que les prestations, réponses courtes */
+.faq-item summary{grid-template-columns:60px 1fr 30px}
+.faq-item .service-name{font-size:clamp(20px,2.3vw,34px);letter-spacing:-.03em;line-height:1.15}
+.faq-answer{padding:0 50px 34px 80px;max-width:860px;animation:details-in .25s ease-out}
+.faq-answer p{color:#c4b5b0;font-size:15px;line-height:1.7}
+@media(max-width:1050px){.faq-item summary{grid-template-columns:40px 1fr 25px}.faq-answer{padding-left:52px}}
+@media(max-width:720px){.faq-item summary{grid-template-columns:27px 1fr 20px}.faq-item .service-name{font-size:20px}.faq-answer{padding:0 0 26px 35px}.faq-answer p{font-size:14px}}
+
+/* Téléphone : une étape = l'espace libre sous la scène, texte centré (plus de grands vides),
+   et le texte s'estompe en passant sous la scène au lieu d'être coupé net. */
+@media(max-width:720px){
+  .earthworks-flow li[data-flow-step]{min-height:calc(100svh - max(50svh,380px));justify-content:center;padding:28px 0}
+  #reseaux .scene-flow li[data-flow-step]{display:flex;flex-direction:column;justify-content:center;min-height:calc(100svh - max(56svh,420px));padding:28px 0}
+  .earthworks-flow,#reseaux .scene-flow{padding-bottom:0}
+  .earthworks-flow::before,#reseaux .scene-flow::before{content:'';display:block;position:sticky;z-index:1;height:72px;margin:0 calc(-1 * var(--gutter)) -72px;pointer-events:none}
+  .earthworks-flow::before{top:max(50svh,380px);background:linear-gradient(#150e0f 18%,#150e0f00)}
+  #reseaux .scene-flow::before{top:max(56svh,420px);background:linear-gradient(#0b0405 18%,#0b040500)}
+  .earthworks-flow li,#reseaux .scene-flow li{position:relative;z-index:0}
+}
+
+/* Formulaire : carte noire sur le rouge, quatre étapes numérotées, tuiles illustrées, barre de progression */
+.quote-form{--form-progress:0;background:var(--ink);color:#f4efe9;padding:clamp(22px,3vw,40px);box-shadow:0 30px 60px -30px #0009}
+.quote-form .form-topline{display:flex;justify-content:space-between;align-items:baseline;border:0;margin:0 0 12px;padding:0;font-size:10px;letter-spacing:.06em;color:#b9aaa8}
+.quote-form .form-topline>span{color:#b9aaa8;font-size:10px;line-height:1.4}
+.quote-form .form-topline>.form-count{color:#fff;font-size:12px}
+.quote-form .form-count [data-form-count]{color:var(--red)}
+.form-meter{height:3px;background:#2c2224;margin-bottom:30px;overflow:hidden}
+.form-meter>span{display:block;height:100%;background:var(--red);transform:scaleX(var(--form-progress));transform-origin:left;transition:transform .5s cubic-bezier(.2,.75,.15,1)}
+.form-step{border:0;margin:0;padding:0 0 30px;min-width:0}
+.form-step+.form-step{border-top:1px solid #2c2224;padding-top:26px}
+.form-step legend+*{clear:both}
+.form-step legend{float:left;width:100%;display:flex;align-items:baseline;gap:14px;padding:0;margin-bottom:20px;font-size:clamp(22px,2.2vw,30px);font-weight:700;letter-spacing:-.035em;line-height:1.1;color:#fff}
+.form-step-num{font-size:11px;font-weight:400;letter-spacing:.04em;color:#8d7f81;min-width:22px;transition:color .3s}
+.form-step.is-done .form-step-num{color:var(--red)}
+.form-step.is-done .form-step-num::after{content:' ✓'}
+.form-req{color:var(--red)}
+/* Tuiles du besoin : toute la tuile est le bouton radio */
+.need-grid{display:grid;grid-template-columns:repeat(3,minmax(0,1fr));gap:10px}
+.quote-form .need{position:relative;display:flex;flex-direction:column;gap:6px;min-height:128px;padding:16px 14px 14px;color:#f4efe9;cursor:pointer;isolation:isolate}
+.need input{position:absolute;inset:0;width:100%;height:100%;margin:0;opacity:0;cursor:pointer;z-index:2;min-height:0;border:0;padding:0}
+.need-box{position:absolute;inset:0;z-index:-1;border:1px solid #3d3133;background:#150e0f;transition:background .25s,border-color .25s,transform .25s}
+.need:hover .need-box{border-color:#8d7f81}
+.need input:checked+.need-box{background:var(--red);border-color:var(--red)}
+.need input:focus-visible+.need-box{outline:2px solid #fff;outline-offset:3px}
+.need-icon{width:68px;height:42px;margin-bottom:auto;fill:none;stroke:currentColor;stroke-width:1.6;stroke-linejoin:round;stroke-linecap:round;color:#d8cdc8;transition:color .25s,transform .35s cubic-bezier(.2,.75,.15,1)}
+.need:hover .need-icon{transform:translateX(4px)}
+.need input:checked~.need-icon{color:#fff;transform:translateX(6px)}
+.quote-form .need-name{font-size:16px;font-weight:600;letter-spacing:-.02em;line-height:1.15;color:#fff}
+.quote-form .need-kind{font-size:9px;letter-spacing:.05em;color:#a99a97}
+.quote-form .need input:checked~.need-kind{color:#ffe3e6}
+/* Champs : grands, soulignés, le trait rouge se dessine au focus */
+.quote-form label{display:block;font-size:11px;font-weight:500;letter-spacing:.01em;color:#c9bcb8;line-height:1.5}
+.quote-form label>span,.quote-form label>em{color:var(--red);font-style:normal}
+.quote-form label>em{color:#8d7f81}
+.quote-form .form-row{display:grid;grid-template-columns:1fr 1fr;gap:22px;margin:0}
+.quote-form .form-row-3{grid-template-columns:1.3fr 1fr 1fr}
+.quote-form input:not([type=radio]),.quote-form textarea{color:#fff;font-size:17px;padding:12px 0 10px;min-height:48px;border-bottom:1px solid #4a3c3e;background:linear-gradient(var(--red),var(--red)) no-repeat left bottom/0 2px;transition:background-size .35s cubic-bezier(.2,.75,.15,1),border-color .2s}
+.quote-form input:not([type=radio]):hover,.quote-form textarea:hover{border-bottom-color:#8d7f81}
+.quote-form input:not([type=radio]):focus,.quote-form textarea:focus{border-bottom:1px solid #4a3c3e;padding-bottom:10px;background-size:100% 2px}
+.quote-form input::placeholder,.quote-form textarea::placeholder{color:#7f7274;font-size:15px}
+.quote-form textarea{min-height:110px;line-height:1.55}
+.quote-form input[type=date]{color-scheme:dark;-webkit-appearance:none;appearance:none;text-align:left;padding-right:28px;background:url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 16 16'%3E%3Cpath d='M2.5 3.5h11v10h-11zM2.5 6.5h11M5 1.5v3M11 1.5v3' fill='none' stroke='%23d8cdc8' stroke-width='1.3'/%3E%3C/svg%3E") no-repeat right 2px center/15px 15px,linear-gradient(var(--red),var(--red)) no-repeat left bottom/0 2px}
+.quote-form input[type=date]:focus{background-size:15px 15px,100% 2px}
+.quote-form input[type=date]::-webkit-date-and-time-value{text-align:left;margin:0}
+.quote-form input[type=date]::-webkit-calendar-picker-indicator{opacity:0;cursor:pointer}
+.quote-form input:-webkit-autofill{-webkit-text-fill-color:#fff;-webkit-box-shadow:0 0 0 40px var(--ink) inset;caret-color:#fff}
+.quote-form .form-bottom{display:flex;flex-direction:column;align-items:stretch;gap:14px;margin-top:6px}
+.quote-form .form-bottom p{max-width:none;font-size:11px;line-height:1.6;color:#a99a97}
+.quote-form .form-bottom a{color:#fff}
+.form-submit{display:flex;justify-content:space-between;align-items:center;width:100%;min-height:60px;padding:0 22px;background:#fff;color:var(--ink);font-size:15px;font-weight:600;letter-spacing:-.01em;border:0;transition:background .25s,color .25s}
+.form-submit:hover,.form-submit:focus-visible{background:var(--red);color:#fff}
+.form-submit .icon-arrow{width:18px;height:18px;transition:transform .3s}
+.form-submit:hover .icon-arrow{transform:translate(3px,-3px)}
+.quote-form .form-required{color:#8d7f81;font-size:9px;margin-top:16px}
+.quote-form .bd-form-retour{color:#fff;font-size:13px;margin-bottom:12px}
+@media(max-width:1050px){.quote-form .form-row-3{grid-template-columns:1fr 1fr}.quote-form .form-row-3 label:first-child{grid-column:1/-1}}
+@media(max-width:720px){
+  .need-grid{grid-template-columns:repeat(2,minmax(0,1fr));gap:8px}
+  .quote-form .need{min-height:116px;padding:14px 12px 12px}
+  .quote-form .need-name{font-size:15px}
+  .quote-form .need-kind{font-size:8.5px}
+  .quote-form .form-row,.quote-form .form-row-3{grid-template-columns:1fr;gap:18px}
+  .quote-form input:not([type=radio]),.quote-form textarea{font-size:16px}
+  .quote-form input::placeholder,.quote-form textarea::placeholder{font-size:15px}
+  .form-step legend{font-size:24px}
+}
+@media(prefers-reduced-motion:reduce){.form-meter>span,.need-box,.need-icon,.quote-form input,.quote-form textarea{transition:none}}
+body.motion-reduced .form-meter>span,body.motion-reduced .need-box,body.motion-reduced .need-icon{transition:none}
+.quote-form input:not([type=radio]){height:48px}
+
+/* Le quotidien de CLT : bande de photos horizontale (news-rail.js) */
+.news-rail{position:relative;margin:0 calc(-1 * var(--gutter))}
+.news-rail-sticky{display:flex;flex-direction:column;justify-content:center;gap:22px;padding:28px 0}
+.news-rail-on .news-rail-sticky{position:sticky;top:0;height:100svh;min-height:560px;overflow:hidden}
+.news-rail-top{display:flex;justify-content:space-between;gap:16px;padding:0 var(--gutter);font-size:10px;letter-spacing:.05em;color:#b6adaf}
+.news-rail-count{color:#fff}
+.news-rail-count [data-rail-count]{color:var(--red)}
+.news-rail .news-gallery{display:flex;gap:clamp(14px,1.6vw,24px);padding:0 var(--gutter);overflow-x:auto;scroll-snap-type:x mandatory;scrollbar-width:none;-webkit-overflow-scrolling:touch}
+.news-rail .news-gallery::-webkit-scrollbar{display:none}
+.news-rail-on .news-gallery{overflow:hidden;scroll-snap-type:none;scroll-behavior:auto}
+.news-rail .news-gallery::after{content:'';flex:0 0 1px}
+.news-rail .social-photo{flex:0 0 clamp(300px,34vw,560px);scroll-snap-align:start;scroll-margin-left:var(--gutter)}
+.news-rail .social-photo-media{height:clamp(240px,48svh,520px)}
+.news-rail .social-photo-featured img,.news-rail .social-photo-lac img{object-position:50% 65%}
+.news-rail img[src*="clt-route-hdr"]{object-position:80% 50%}
+.news-rail img[src*="clt-levage-hdr"]{object-position:85% 50%}
+.news-rail .social-photo-media img{transition:none}
+@media(hover:hover) and (pointer:fine){.news-rail .social-photo-media img{transition:transform .45s}.news-rail .social-photo-media:hover img{transform:scale(1.035)}}
+.news-rail .social-photo h3{font-size:clamp(22px,2.2vw,34px);margin-bottom:16px}
+.news-rail-progress{height:2px;margin:0 var(--gutter);background:#382e30}
+.news-rail-progress>span{display:block;height:100%;background:var(--red);transform:scaleX(0);transform-origin:left}
+.news-rail:not(.news-rail-on) .news-rail-progress{display:none}
+@media(max-width:720px){
+  .news-rail .social-photo{flex-basis:80vw}
+  .news-rail .social-photo-media{height:min(54svh,440px)}
+  .news-rail .social-photo-meta span:last-child{display:inline}
+  .news-rail .social-photo h3{font-size:24px;margin-bottom:10px}
+  .news-rail-sticky{gap:16px}
+}
+
+/* Cartes sous le camion (ordinateur) : rectangles noirs, un seul lien « En savoir plus », sous la route */
+@media(min-width:721px){.journey .journey-road{bottom:max(25%,226px)}.journey .landscape{bottom:max(30%,272px)}.journey .truck-scene{bottom:calc(max(25%,226px) - 2.4vw)}}
+.scene-services-desk{bottom:30px}
+.scene-service{flex:0 0 clamp(320px,36vw,540px);background:none;border:0;padding:0;display:block}
+.journey-arrival .scene-service{background:none}
+.scene-service-link{position:relative;display:flex;flex-direction:column;gap:10px;height:100%;min-height:150px;padding:18px 22px 16px;background:var(--ink);color:#f6f1ec;border-top:3px solid var(--red);box-shadow:0 18px 40px -24px #0b040599;transition:transform .3s cubic-bezier(.2,.75,.15,1),background .25s}
+.scene-service-link:hover,.scene-service-link:focus-visible{transform:translateY(-4px);background:#1d1415}
+.scene-service-link:focus-visible{outline:2px solid var(--red);outline-offset:3px}
+.scene-service-link .scene-service-meta{display:flex;justify-content:space-between;gap:12px;margin:0;font-size:10px;letter-spacing:.05em;color:#a99a97}
+.scene-service-link .scene-service-meta .red{color:#ff4b57}
+.scene-service-title{font-size:clamp(22px,1.9vw,30px);font-weight:700;letter-spacing:-.04em;line-height:1.05}
+.scene-service-link .scene-service-more{margin-top:auto;display:flex;justify-content:space-between;align-items:center;min-height:0;padding-top:12px;border-top:1px solid #3a2f30;font-size:13px;font-weight:600;color:#fff;text-decoration:none;letter-spacing:-.01em}
+.scene-service-more .icon-arrow{width:16px;height:16px;color:#ff4b57;transition:transform .3s}
+.scene-service-link:hover .scene-service-more .icon-arrow{transform:translateY(3px)}
+@media(max-height:820px) and (min-width:721px){.journey .journey-road{bottom:max(25%,214px)}.journey .truck-scene{bottom:calc(max(25%,214px) - 2.4vw)}.journey .landscape{bottom:max(30%,256px)}.scene-service-link{min-height:136px}}
+
+/* Prestations : panneaux empilés qui se recouvrent au défilement, tout est ouvert et lisible */
+.service-anchor{display:block;height:0;scroll-margin-top:max(0px,var(--stick,80px))}
+.service-list .service-panel{position:sticky;top:var(--stick,80px);background:var(--ink);border-top:1px solid #3a2f30;border-bottom:0;padding:0 0 34px;box-shadow:0 -26px 40px -28px #000;transform-origin:50% 0}
+.service-list .service-panel:last-of-type{border-bottom:1px solid #3a2f30}
+.service-head{display:grid;grid-template-columns:60px 1fr 240px;align-items:center;gap:20px;padding:28px 0 22px}
+.service-head .service-kind{justify-self:end}
+.service-panel .service-content{padding-top:0;animation:none}
+.service-panel .service-scene{animation:none}
+body.motion-reduced .service-list .service-panel{position:relative;top:auto}
+@media(prefers-reduced-motion:reduce){.service-list .service-panel{position:relative;top:auto}}
+@media(max-width:1050px){.service-head{grid-template-columns:40px 1fr 170px;gap:12px}}
+@media(max-width:720px){.service-head{grid-template-columns:27px 1fr;gap:8px;padding:22px 0 16px}.service-head .service-kind{display:none}.service-panel .service-content{padding:0 0 4px 35px}}
+
+/* Formulaire pas à pas : une étape à l'écran, barre d'étapes cliquable, boutons Retour / Continuer */
+.quote-form label>span.field-name{color:inherit}
+.form-stepper{display:none}
+.form-wizard .form-stepper{display:grid;grid-template-columns:repeat(4,1fr);gap:6px;list-style:none;margin:6px 0 10px;padding:0}
+.form-stepper-btn{display:flex;flex-direction:column;align-items:flex-start;gap:4px;width:100%;min-height:44px;padding:8px 0 6px;border:0;border-bottom:2px solid #2c2224;background:none;color:#8d7f81;font:600 13px var(--font,Archivo,sans-serif);letter-spacing:-.01em;text-align:left;cursor:pointer;transition:color .25s,border-color .25s}
+.form-stepper-btn .mono{font-size:10px;font-weight:400;letter-spacing:.04em}
+.form-stepper-btn.is-done{color:#d8cdc8;border-bottom-color:#5a2a2e}
+.form-stepper-btn.is-done .mono::after{content:' ✓';color:var(--red)}
+.form-stepper-btn.is-current{color:#fff;border-bottom-color:var(--red)}
+.form-stepper-btn:focus-visible{outline:2px solid #fff;outline-offset:3px}
+.form-wizard .form-meter{display:none}
+.form-wizard .form-step{border-top:0;padding-top:18px;padding-bottom:6px;min-height:var(--step-min,0)}
+.form-wizard .form-step:not([hidden]){animation:step-in .45s cubic-bezier(.2,.75,.15,1) both}
+@keyframes step-in{from{opacity:0;transform:translateX(18px)}to{opacity:1;transform:none}}
+.form-wizard .form-step legend .form-step-num{display:none}
+.form-nav{display:none}
+.form-wizard .form-nav{display:flex;gap:10px;margin:18px 0 14px}
+.form-back,.form-next{min-height:56px;padding:0 20px;border:1px solid #4a3c3e;background:none;color:#fff;font:600 15px var(--font,Archivo,sans-serif);cursor:pointer;transition:background .25s,border-color .25s,color .25s}
+.form-back:hover{border-color:#fff}
+.form-next{flex:1;display:flex;justify-content:space-between;align-items:center;background:#fff;color:var(--ink);border-color:#fff}
+.form-next:hover,.form-next:focus-visible{background:var(--red);border-color:var(--red);color:#fff}
+.form-next .icon-arrow{width:18px;height:18px}
+.form-wizard[data-step="1"] .form-back{display:none}
+.form-wizard:not([data-step="4"]) .form-submit{display:none}
+.form-wizard[data-step="4"] .form-next{display:none}
+.form-wizard .form-submit{flex:1}
+.quote-form .form-bottom{margin-top:0}
+.quote-form [data-destination-field][hidden]{display:none}
+@media(max-width:720px){.form-stepper-btn{font-size:12px}.form-wizard .form-step legend{font-size:26px}}
+@media(prefers-reduced-motion:reduce){.form-wizard .form-step:not([hidden]){animation:none}}
+body.motion-reduced .form-wizard .form-step:not([hidden]){animation:none}
+
+/* En route : chaque étape porte un vrai contenu (plus de grands vides sur téléphone) */
+.route-steps p+p{margin-top:10px}
+.route-steps p a{color:inherit;text-decoration:underline;text-underline-offset:.2em}
+.route-tags{display:flex;flex-wrap:wrap;gap:6px;margin-top:14px!important}
+.route-tags span{padding:5px 8px;border:1px solid #cfcbc5;font-size:9px;letter-spacing:.06em;color:#5b5252}
+@media(min-width:721px){.route-steps{min-height:330px}}
+@media(max-width:720px){.route-steps li{min-height:0;padding:26px 0 34px}}
+/* La dernière carte : contacter CLT, grosse flèche qui descend vers le formulaire */
+.scene-service-contact .scene-service-link{background:var(--red);border-top-color:var(--ink);color:#fff}
+.scene-service-contact .scene-service-link:hover,.scene-service-contact .scene-service-link:focus-visible{background:#c91c2a}
+.scene-service-contact .scene-service-link .scene-service-meta{color:#fff}
+.scene-service-contact .scene-service-link .scene-service-more{border-top-color:#ffffff59;font-size:15px}
+.scene-service-contact .scene-service-more .icon-arrow{width:42px;height:42px;color:#fff;stroke-width:1.6;margin:-14px 0 -8px;animation:contact-arrow 1.6s cubic-bezier(.45,0,.2,1) infinite}
+@keyframes contact-arrow{0%,100%{transform:translateY(-4px)}50%{transform:translateY(6px)}}
+@media(prefers-reduced-motion:reduce){.scene-service-contact .scene-service-more .icon-arrow{animation:none}}
+body.motion-reduced .scene-service-contact .scene-service-more .icon-arrow{animation:none}
+
+/* Contact sur téléphone : moins de rouge, le formulaire noir prend toute la largeur jusqu'au pied de page */
+@media(max-width:720px){
+  .contact.section-padding{padding-top:44px;padding-bottom:0}
+  .contact-heading .section-label{font-size:10px}
+  .contact-heading h2{margin-top:16px;font-size:clamp(34px,10vw,46px);line-height:1}
+  .contact-heading>p{margin-top:12px;font-size:14px;line-height:1.5}
+  .contact-heading>p br{display:none}
+  .contact-layout{margin-top:20px;gap:22px}
+  .contact-direct{display:grid;grid-template-columns:1fr auto;align-items:center;gap:4px 14px}
+  .contact-direct>.mono{grid-column:1/-1;margin-bottom:2px;font-size:10px}
+  .contact-direct>a:not(.contact-facebook){font-size:21px;padding-bottom:8px}
+  .contact-direct>p{margin:0;font-size:13px;grid-column:1}
+  .contact-facebook{margin:0;grid-column:2;grid-row:3;font-size:12px}
+  .contact .quote-form{margin:0 calc(-1 * var(--gutter));padding:24px var(--gutter) 30px;box-shadow:none}
+}
+/* Tablette et téléphone : une colonne en bloc (la grille calculait mal la hauteur de l'animation, qui recouvrait le titre) */
+@media(max-width:1050px){.service-panel .service-content{display:block}.service-panel .service-content>*+*{margin-top:22px}.service-panel .service-scene{width:100%;height:auto}}
+/* Très petits téléphones : en-tête et adresse e-mail sans chevauchement */
+@media(max-width:380px){.header .header-contact{display:none}.menu-toggle{margin-left:auto}.contact-direct>a:not(.contact-facebook){font-size:18px;white-space:nowrap}}
+@media(max-width:400px){.contact-direct>a:not(.contact-facebook){white-space:nowrap}}
+.nav a{display:inline-flex;justify-content:center;min-width:24px}
+
+/* Du terrain. Du concret. : un fil rouge relie 01 → 02 → 03 ; chaque point arrive à son tour
+   (trait, numéro, titre puis texte), piloté par le défilement et réversible (reveal.js). */
+.company-points{position:relative;padding-left:22px}
+.company-points::before,.company-points::after{content:'';position:absolute;left:0;top:0;bottom:0;width:2px}
+.company-points::before{background:#e327352e}
+.company-points::after{background:var(--red);transform-origin:top;transform:scaleY(var(--reveal,1))}
+.company-points article{position:relative;border-top-color:transparent}
+.company-points article::before{content:'';position:absolute;left:0;right:0;top:-1px;height:1px;background:#c9c6c3;transform-origin:left;transform:scaleX(var(--reveal,1))}
+.company-points article::after{content:'';position:absolute;left:-26px;top:31px;width:10px;height:10px;border-radius:50%;background:var(--red);box-shadow:0 0 0 5px #e3273524;transform:scale(clamp(0,(var(--reveal,1) - .25) * 3,1))}
+.company-points article>.mono{display:inline-block;opacity:var(--reveal,1);transform:translateX(calc((1 - var(--reveal,1)) * -18px))}
+.company-points article h3{opacity:clamp(0,(var(--reveal,1) - .15) / .55,1);transform:translateY(calc((1 - clamp(0,(var(--reveal,1) - .15) / .55,1)) * 22px))}
+.company-points article p{opacity:clamp(0,(var(--reveal,1) - .35) / .55,1);transform:translateY(calc((1 - clamp(0,(var(--reveal,1) - .35) / .55,1)) * 16px))}
+/* La photo de la flotte s'ouvre comme un rideau, de gauche à droite */
+.company-fleet>a{clip-path:inset(0 calc((1 - var(--reveal,1)) * 100%) 0 0)}
+@media(max-width:720px){.company-points{padding-left:18px}.company-points article::after{left:-22px;top:27px}}

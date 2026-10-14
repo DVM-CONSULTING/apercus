@@ -1,0 +1,37 @@
+/* Kit Belle Devanture habillé aux couleurs CLT (fond #0b0405, blanc, rouge #e32735, Archivo / Space Mono).
+   Ne change rien au style du site : signature, liens légaux, formulaire suivi, bandeau cookies, pages légales. */
+:root{--bd-fond:#0b0405;--bd-texte:#fff;--bd-bordure:#635657;--bd-rayon:0;--bd-rayon-bouton:3px;--bd-police:var(--font)}
+.bd-signature{margin:0;line-height:inherit}
+.bd-signature a{color:inherit;text-decoration:underline;text-underline-offset:.2em}
+.bd-signature a:hover,.footer-legal a:hover,.footer-legal button:hover{color:#fff}
+.footer-legal{display:flex;flex-wrap:wrap;gap:4px 18px;align-items:center}
+.footer-legal a,.footer-legal button{padding:5px 0;color:inherit;font:inherit}
+.bd-form-piege{position:absolute;left:-10000px;width:1px;height:1px;overflow:hidden}
+.bd-form-retour{margin:0 0 18px;padding:12px 14px;border-left:3px solid var(--red);background:#fff;color:var(--ink);font-size:13px;line-height:1.5}
+.form-bottom p a{text-decoration:underline;text-underline-offset:.2em}
+/* Pages légales et page introuvable */
+.bd-page{min-height:100svh;display:flex;flex-direction:column;background:var(--paper);color:var(--ink)}
+.bd-page .header{position:static;border-bottom:1px solid #0b040515;background:var(--ink);color:#fff}
+.bd-page main{flex:1;padding:70px var(--gutter) 90px;max-width:900px}
+.bd-page h1{font-size:clamp(40px,6vw,86px);line-height:.99;margin:22px 0 40px}
+.bd-page h2{font-size:clamp(24px,3vw,34px);letter-spacing:-.04em;margin:48px 0 14px}
+.bd-page main p,.bd-page main li{font-size:16px;line-height:1.65;color:#3b3133;max-width:68ch}
+.bd-page main p+p{margin-top:12px}
+.bd-page main a{color:var(--ink);text-decoration:underline;text-underline-offset:.2em}
+.bd-page main a:hover{color:var(--red)}
+.bd-page .section-label{color:var(--red);font-size:11px}
+.bd-page .footer{background:var(--ink);color:#fff}
+body.bd-page .footer .footer-bottom{font-size:11px;color:#cfc6c8;border-top:0;padding-top:0}
+.bd-a-confirmer{background:#fff1a8;color:#0b0405;padding:0 4px}
+.bd-404 main{max-width:none}
+@media(max-width:720px){.bd-page main{padding:50px var(--gutter) 70px}body.bd-page .footer .footer-bottom{flex-direction:column;align-items:flex-start;font-size:11px}}
+/* Bandeau cookies (posé seulement avec un identifiant de mesure) — les deux boutons sont identiques (CNIL) */
+.bd-consentement{position:fixed;inset-inline:.75rem;inset-block-end:.75rem;z-index:50;max-width:64rem;margin-inline:auto;background:var(--bd-fond);color:var(--bd-texte);border:1px solid var(--bd-bordure);border-radius:var(--bd-rayon);box-shadow:0 8px 30px rgb(0 0 0 / .35);font-family:var(--bd-police)}
+.bd-consentement[hidden]{display:none}
+.bd-consentement__interieur{display:flex;flex-wrap:wrap;gap:.75rem 1.5rem;align-items:center;justify-content:space-between;padding:1rem 1.25rem}
+.bd-consentement__texte{margin:0;flex:1 1 28rem;font-size:.875rem;line-height:1.5}
+.bd-consentement__texte a{color:inherit;text-decoration:underline}
+.bd-consentement__actions{display:flex;gap:.75rem;flex:0 0 auto}
+.bd-consentement__bouton{font:inherit;font-weight:600;min-height:44px;min-width:7.5rem;padding:.5rem 1.25rem;border:1px solid currentColor;border-radius:var(--bd-rayon-bouton);background:transparent;color:inherit;cursor:pointer}
+.bd-consentement__bouton:hover{background:var(--red);border-color:var(--red)}
+.bd-cookies{font:inherit;color:inherit;background:none;border:0;padding:5px 0;cursor:pointer;text-decoration:underline;text-underline-offset:.2em}

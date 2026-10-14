@@ -1,0 +1,69 @@
+.earthworks-section{position:relative;height:330svh;min-height:2100px;background:#150e0f;color:#f5f0ec;isolation:isolate}
+.earthworks-sticky{position:sticky;top:0;height:100svh;min-height:700px;overflow:hidden;padding:30px var(--gutter,5vw);background:#150e0f}
+.earthworks-top{display:flex;justify-content:space-between;align-items:center;gap:24px;position:relative;z-index:5}
+.earthworks-top .section-label{color:#b9a9a7}
+.earthworks-top .motion-toggle{border-color:#514242;color:#c3b6b2}
+.earthworks-top .motion-toggle:hover{border-color:#f5f0ec;color:#fff}
+.earthworks-copy{position:relative;z-index:4;margin-top:31px;display:flex;align-items:flex-end;justify-content:space-between;gap:7%}
+.earthworks-eyebrow{font-size:9px;color:#b09e99;margin-bottom:15px;letter-spacing:.04em}
+.earthworks-title{font-family:Archivo,Arial,sans-serif;font-size:clamp(62px,8.1vw,125px);font-weight:800;line-height:.91;letter-spacing:-.065em;white-space:nowrap}
+.earthworks-title .earthworks-dot{color:#e32735}
+.earthworks-description{max-width:278px;flex-shrink:0;font-size:13px;line-height:1.65;color:#bbaba6;padding-bottom:4px;min-height:65px}
+.earthworks-world{position:absolute;left:0;top:29%;width:100%;height:59%;max-width:none;overflow:visible;pointer-events:none}
+.earthworks-contours{fill:none;stroke:#7c5d50;stroke-width:.9;opacity:.2}
+.earthworks-house-plan{fill:none;stroke:#f3ede7;stroke-width:1.5;stroke-linejoin:round;vector-effect:non-scaling-stroke}
+.earthworks-house-plan .earthworks-mark{stroke:none}
+.earthworks-house-detail{stroke:#b4a59b;stroke-width:1}
+.earthworks-plot{stroke:#9c7c6e;stroke-width:1;opacity:.65}
+.earthworks-plan-stake{stroke:#e32735;stroke-width:2}
+.earthworks-surface{fill:none;stroke:#a78261;stroke-width:1.6;stroke-linejoin:round;opacity:.7}
+.earthworks-talus-shadow{fill:#21130c;opacity:.55}
+.earthworks-talus-light{fill:#d0a671;opacity:.17}
+.earthworks-pit-stratum{fill:none;stroke:#a48158;stroke-width:1.6;opacity:.48}
+.earthworks-floor-gravel{fill:#bfa27a;opacity:.67}
+.earthworks-machine,.earthworks-dump-truck{filter:drop-shadow(0 8px 6px #0005)}
+.earthworks-boom,.earthworks-stick,.earthworks-bucket{will-change:transform}
+.earthworks-bucket-load,.earthworks-bed-fill{fill:url(#earthworks-load-photo);stroke:#a88559;stroke-width:1.2;stroke-linejoin:round}
+.earthworks-grain{fill:#a37b50;stroke:#6a4c30;stroke-width:.5}
+.earthworks-grain:nth-child(3n){fill:#745137}
+.earthworks-grain:nth-child(4n){fill:#b69567}
+.earthworks-mark{font-family:'Space Mono',monospace;font-size:11px;letter-spacing:1px;fill:#a58d7d}
+.earthworks-mark-red{fill:#e32735;font-size:12px}
+.earthworks-bottom{position:absolute;left:var(--gutter,5vw);right:var(--gutter,5vw);bottom:31px;z-index:5;display:flex;align-items:flex-end;justify-content:space-between;gap:24px}
+.earthworks-stops{display:flex;gap:34px}
+.earthworks-step{border:0;background:transparent;padding:14px 0 12px;color:#baaaa5;font-size:12px;position:relative}
+.earthworks-step .mono{font-size:8px;margin-right:8px;color:#826e66}
+.earthworks-step::after{content:'';position:absolute;bottom:0;left:0;right:0;height:2px;background:#e32735;transform:scaleX(0);transform-origin:left;transition:transform .2s}
+.earthworks-step.active{color:#fff}
+.earthworks-step.active .mono{color:#e32735}
+.earthworks-step.active::after{transform:scaleX(1)}
+.earthworks-caption{font-size:7px;color:#9e8b82;text-align:right;letter-spacing:.04em;line-height:1.7}
+.earthworks-progress{position:absolute;left:0;right:0;bottom:0;height:3px;background:#3a2925;z-index:5}
+.earthworks-progress>span{display:block;width:100%;height:100%;background:#e32735;transform:scaleX(0);transform-origin:left}
+.earthworks-section.earthworks-static,body.motion-reduced .earthworks-section{height:auto;min-height:0}
+.earthworks-static .earthworks-sticky,body.motion-reduced .earthworks-sticky{position:relative;height:850px}
+.earthworks-static .earthworks-step::after{transition:none}
+@media(max-width:1050px){.earthworks-description{max-width:235px;font-size:12px}.earthworks-title{font-size:8.1vw}.earthworks-world{top:31%;height:57%}}
+@media(max-width:720px){
+  .earthworks-section{height:320svh;min-height:1950px}
+  .earthworks-sticky{height:92svh;min-height:660px;max-height:740px;padding-top:26px}
+  .earthworks-top{gap:14px;align-items:flex-start}
+  .earthworks-top .section-label{font-size:7px;max-width:180px}
+  .earthworks-copy{display:block;margin-top:32px}
+  .earthworks-eyebrow{font-size:8px;margin-bottom:15px}
+  .earthworks-title{font-size:clamp(43px,11.7vw,80px);letter-spacing:-.06em}
+  .earthworks-description{max-width:285px;min-height:58px;font-size:12px;margin-top:18px;line-height:1.55}
+  .earthworks-world{height:47%;top:46%}
+  .earthworks-bottom{bottom:27px;gap:12px;align-items:flex-end}
+  .earthworks-stops{gap:19px}
+  .earthworks-step{font-size:10px;padding-top:10px;min-height:47px}
+  .earthworks-step .mono{display:block;font-size:7px;margin:0 0 6px}
+  .earthworks-caption{font-size:5px;max-width:72px;line-height:1.6}
+  .earthworks-mark{font-size:12px}
+  .earthworks-mark-red{font-size:14px}
+  .earthworks-static .earthworks-sticky,body.motion-reduced .earthworks-sticky{height:740px;min-height:660px}
+}
+@media(max-width:370px){.earthworks-stops{gap:14px}.earthworks-step{font-size:9px}.earthworks-caption{display:none}.earthworks-description{font-size:11px}.earthworks-title{font-size:11.5vw}}
+@media(prefers-reduced-motion:reduce){.earthworks-step::after{transition:none}.earthworks-boom,.earthworks-stick,.earthworks-bucket{will-change:auto}}
+/* Logo CLT sur la porte du camion benne (comme sur le porte-engins) */
+.truck-door-logo{font:italic 900 27px var(--font,Archivo,Arial,sans-serif);letter-spacing:-1.5px;fill:#141011}

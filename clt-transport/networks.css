@@ -1,0 +1,104 @@
+/* Scène VRD : planche technique en coupe. Les couleurs des réseaux suivent celles des grillages avertisseurs
+   (eau bleu, électricité rouge, télécom vert, assainissement marron) ; l'interface garde le rouge CLT. */
+.networks-section{height:340svh;min-height:2300px;position:relative;background:#0b0405;color:#f4f0e8;isolation:isolate;border-top:1px solid #382e30}
+.networks-sticky{position:sticky;top:0;height:100svh;min-height:min(760px,100svh);overflow:hidden;padding:33px var(--gutter,5vw);background:radial-gradient(ellipse at 66% 58%,#2a201b 0,transparent 62%),#0b0405}
+.networks-top{display:flex;align-items:center;justify-content:space-between;gap:24px;position:relative;z-index:5}
+.networks-top .section-label{color:#b9aaa8}
+.networks-top .motion-toggle{color:#c6b8b4;border-color:#514242}
+.networks-top .motion-toggle:hover{color:#fff;border-color:#ad9b92}
+/* Texte à gauche, planche à droite : la scène prend la place */
+.networks-copy{position:relative;z-index:4;margin-top:44px;width:min(30%,400px);display:block}
+.networks-eyebrow{font:10px/1.5 var(--mono,'Space Mono',monospace);color:#b09d97;letter-spacing:.035em;margin-bottom:16px}
+.networks-title{font-family:var(--font,Archivo,Arial,sans-serif);font-size:clamp(46px,5.2vw,92px);font-weight:800;line-height:.92;letter-spacing:-.055em;text-wrap:balance}
+.networks-dot{color:#e32735}
+.networks-description{max-width:340px;min-height:96px;margin-top:24px;font-size:14px;line-height:1.65;color:#c4b5b0;text-wrap:pretty}
+.networks-legend{position:relative;z-index:4;margin-top:22px;width:min(30%,400px);display:grid;grid-template-columns:repeat(2,max-content);gap:12px 26px;font:11px/1.4 var(--mono,'Space Mono',monospace)}
+.networks-legend-item{display:inline-flex;align-items:center;gap:9px;white-space:nowrap}
+.networks-legend-item svg{width:18px;height:18px;flex:none;fill:currentColor}
+.networks-water{color:#5fb2ec;--networks-color:#3f9fe0}
+.networks-power{color:#f06b5f;--networks-color:#e2493b}
+.networks-telecom{color:#6fc887;--networks-color:#4fb36b}
+.networks-drain{color:#c99366;--networks-color:#a5734a}
+.networks-world{position:absolute;right:0;top:64px;bottom:58px;width:72%;height:auto;max-height:calc(100% - 122px);overflow:visible;pointer-events:none}
+/* Réseaux */
+.networks-route{fill:none;stroke-linecap:round;stroke-linejoin:round}
+.networks-route-guide{stroke:var(--networks-color);stroke-opacity:.28;stroke-width:3;stroke-dasharray:3 9}
+.networks-pipe-shadow{stroke:#0c0a09;stroke-width:19}
+.networks-pipe{stroke:var(--networks-color);stroke-width:13}
+.networks-pipe-shine{stroke:#fff;stroke-opacity:.4;stroke-width:3;transform:translateY(-2px)}
+.networks-power .networks-pipe-shadow,.networks-telecom .networks-pipe-shadow{stroke-width:15}
+.networks-power .networks-pipe,.networks-telecom .networks-pipe{stroke-width:9}
+.networks-power .networks-pipe-shine,.networks-telecom .networks-pipe-shine{stroke-width:2}
+.networks-drain .networks-pipe-shadow{stroke-width:24}
+.networks-drain .networks-pipe{stroke-width:17}
+.networks-main{fill:none;stroke-linecap:butt}
+.networks-main-shine{fill:none;stroke:#fff;stroke-opacity:.35}
+.networks-port{fill:#2b2827;stroke:#c9bfae;stroke-width:3}
+.networks-port-core{fill:var(--networks-color);stroke:none}
+.networks-coupler{fill:var(--networks-color);stroke:#15110f;stroke-width:2}
+.networks-coupler path{fill:none;stroke:#f6eddd;stroke-opacity:.6;stroke-width:2}
+.networks-flow-halo{fill:#fff;fill-opacity:.16;stroke:none}
+.networks-flow-symbol{fill:#fff7e0;stroke:#15201c;stroke-width:.8;paint-order:stroke;stroke-linecap:round}
+.networks-flow-dot{fill:#fff8e9;stroke:var(--networks-color);stroke-width:2}
+.networks-ghost path{fill:none;stroke-width:3;stroke-dasharray:7 7;stroke-linecap:round}
+/* Légendes techniques, liées à l'étape */
+.networks-label{fill:#e2d6cd;font:700 17px var(--mono,'Space Mono',monospace);letter-spacing:.06em;transition:opacity .35s}
+.networks-label path{fill:none;stroke:#b8a69a;stroke-width:1.2}
+.networks-label circle{fill:#e32735;stroke:none}
+.networks-label text{paint-order:stroke;stroke:#0b0405;stroke-width:4px;stroke-linejoin:round}
+.networks-label-fill{opacity:0}
+.networks-section[data-network-phase="2"] .networks-label-open{opacity:0}
+.networks-section[data-network-phase="2"] .networks-label-fill{opacity:1}
+.networks-bottom{position:absolute;left:var(--gutter,5vw);right:var(--gutter,5vw);bottom:29px;display:flex;align-items:flex-end;justify-content:space-between;gap:20px;z-index:5}
+.networks-stops{display:flex;gap:31px}
+.networks-step{position:relative;border:0;background:none;color:#c4b4ae;font-size:13px;line-height:1.4;padding:15px 0 12px;min-height:47px;cursor:pointer}
+.networks-step .mono{color:#a8968f;font-size:10px;margin-right:7px}
+.networks-step::after{content:'';position:absolute;left:0;right:0;bottom:0;height:2px;background:#e32735;transform:scaleX(0);transform-origin:left;transition:transform .2s}
+.networks-step.active{color:#f5eee5}
+.networks-step.active .mono{color:#f04b55}
+.networks-step.active::after{transform:scaleX(1)}
+.networks-step:hover{color:#fff}
+.networks-step:focus-visible{outline:2px solid #e32735;outline-offset:5px}
+.networks-caption{font-size:10px;color:#a8968f;letter-spacing:.04em;text-align:right;line-height:1.7}
+.networks-progress{position:absolute;left:0;right:0;bottom:0;height:3px;background:#382e30;z-index:5}
+.networks-progress>span{display:block;width:100%;height:100%;background:#e32735;transform:scaleX(0);transform-origin:left}
+body.motion-reduced .networks-section{height:auto;min-height:0}
+body.motion-reduced .networks-sticky{position:relative;height:max(860px,100svh)}
+.networks-static .networks-step::after{transition:none}
+@media(max-width:1050px){
+ .networks-copy,.networks-legend{width:34%}
+ .networks-title{font-size:6.4vw}
+ .networks-description{font-size:13px}
+ .networks-legend{grid-template-columns:max-content;gap:9px}
+ .networks-world{width:66%}
+ .networks-label{font-size:20px}
+}
+@media(max-width:720px),(max-width:1050px) and (orientation:portrait){
+ .networks-section{height:330svh;min-height:2100px}
+ .networks-sticky{padding-top:26px}
+ .networks-top{align-items:flex-start;gap:15px}
+ .networks-top .section-label{max-width:180px}
+ .networks-copy,.networks-legend{width:auto}
+ .networks-copy{margin-top:26px}
+ .networks-eyebrow{margin-bottom:10px}
+ .networks-title{font-size:clamp(34px,10vw,58px)}
+ .networks-description{max-width:none;min-height:84px;font-size:13px;margin-top:12px;line-height:1.5}
+ .networks-legend{width:auto;margin-top:12px;grid-template-columns:repeat(4,max-content);gap:14px;font-size:10px}
+ .networks-legend-item{gap:5px}
+ .networks-legend-item svg{width:14px;height:14px}
+ .networks-world{left:0;right:0;width:100%;top:auto;bottom:84px;height:calc(100% - 392px);max-height:none}
+ .networks-annotations{display:none}
+ .networks-bottom{bottom:22px;gap:12px;align-items:flex-end}
+ .networks-stops{gap:20px}
+ .networks-step{font-size:12px;min-height:47px;padding-top:9px;white-space:nowrap}
+ .networks-step .mono{display:block;margin:0 0 6px}
+ .networks-caption{max-width:110px}
+ body.motion-reduced .networks-sticky{height:max(800px,100svh)}
+}
+@media(max-width:370px){.networks-stops{gap:15px}.networks-caption{display:none}.networks-legend{gap:10px;grid-template-columns:repeat(2,max-content)}.networks-description{font-size:12px}.networks-world{height:calc(100% - 410px)}}
+@media(max-height:720px) and (min-width:721px){
+ body:not(.motion-reduced) .networks-copy{margin-top:24px}
+ body:not(.motion-reduced) .networks-description{min-height:0;margin-top:14px}
+ body:not(.motion-reduced) .networks-world{top:50px;bottom:52px}
+}
+@media(prefers-reduced-motion:reduce){.networks-step::after,.networks-label{transition:none}}

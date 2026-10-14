@@ -1,0 +1,57 @@
+/* Reprise Claude — lisibilité, contrastes et zones à toucher.
+   Chargé en dernier : ne change ni la mise en page, ni les couleurs de marque, ni les animations.
+   Plancher : 10 px pour les légendes en Space Mono, contraste 4,5:1 pour les petits textes. */
+picture{display:contents}
+
+/* Légendes et étiquettes : plus jamais sous 10 px */
+.hero-topline,.hero-photograph figcaption,.company-fleet figcaption,.hero-services .mono,.section-label,.expertise-strip,
+.journey-eyebrow,.journey-stop .mono,.meter-unit,.meter-caption,.scene-next,.motion-toggle,
+.earthworks-eyebrow,.earthworks-step .mono,.earthworks-caption,.networks-eyebrow,.networks-step .mono,.networks-caption,.networks-legend,
+.service-index,.service-kind,.social-photo-meta,.news-source,.location-line,.contact-direct>.mono,.form-topline,.form-required,
+.footer-top .mono,.footer-bottom,.footer-bottom button,.footer-legal a,.footer-legal button{font-size:10px}
+.expertise-strip>span:nth-child(even){font-size:16px}
+.journey-stop,.earthworks-step,.networks-step{font-size:13px}
+.quote-form label{font-size:12px}
+input::placeholder,textarea::placeholder{font-size:12px}
+.form-bottom p{font-size:11px}
+.meter-caption{letter-spacing:.03em}
+
+/* Contrastes : scènes claires du transport */
+.journey-eyebrow,.journey-stop,.meter-unit,.meter-caption,.scene-next,.journey-copy>p{color:#625959}
+.motion-toggle{color:#4f4747;border-color:#a9a39d}
+.journey-stop.active{color:var(--ink)}
+/* Rouge des petits textes : plus foncé sur fond clair, plus clair sur fond sombre */
+.intro .red,.journey .section-label .red,.company .red,.form-topline>span{color:#c41d2b}
+.journey-arrival .section-label .red{color:#b01826}
+.location-line{color:#6e6466}
+.earthworks-top .red,.networks-top .red,.services .red,.news .red,.earthworks-step.active .mono,.networks-step.active .mono{color:#f04b55}
+.earthworks-step .mono,.networks-step .mono,.earthworks-caption,.networks-caption{color:#a8968f}
+.earthworks-step,.networks-step{color:#c4b4ae}
+/* Partie contact sur fond rouge : texte blanc */
+.contact-heading .section-label,.contact-direct>.mono,.contact-heading>p,.contact-direct>p{color:#fff}
+.form-bottom p,.form-required,input::placeholder,textarea::placeholder{color:#6e6466}
+
+/* Zones à toucher d'au moins 44 px */
+.nav a{display:inline-flex;align-items:center;min-height:44px}
+.back-top{display:inline-flex;align-items:center;min-height:44px}
+.footer-legal a,.footer-legal button{display:inline-flex;align-items:center;min-height:44px;padding:0}
+.contact-facebook{display:inline-flex;align-items:center;min-height:44px;padding-bottom:0}
+.motion-toggle{min-height:40px}
+
+@media(max-width:720px){
+  .hero-topline,.hero-photograph figcaption,.company-fleet figcaption,.section-label,.journey-top .section-label,.expertise-strip,
+  .journey-eyebrow,.journey-stop .mono,.meter-unit,.meter-caption,.motion-toggle,.earthworks-top .section-label,.earthworks-eyebrow,
+  .earthworks-step .mono,.earthworks-caption,.networks-top .section-label,.networks-eyebrow,.networks-step .mono,.networks-caption,.networks-legend,
+  .service-index,.social-photo-meta,.news-source,.location-line,.contact-direct>.mono,.contact .section-label,.form-topline,.form-required,
+  .footer-top .mono,.footer-bottom,.footer-bottom button,.footer-legal a,.footer-legal button,.hero-services .mono{font-size:10px}
+  .journey-stop,.earthworks-step,.networks-step{font-size:12px}
+  .header .button{font-size:10px}
+  .meter-caption,.earthworks-caption,.networks-caption{max-width:110px;line-height:1.5}
+  .motion-label{max-width:110px}
+  .quote-form label{font-size:12px}
+  .form-bottom p{font-size:11px}
+  .expertise-strip{gap:8px 12px}
+  .footer-bottom{flex-wrap:wrap;row-gap:4px}
+  .hero-intro .text-link,.scroll-cue{font-size:11px}
+}
+@media(max-width:370px){.header .button{font-size:10px}.earthworks-caption,.networks-caption{display:none}.journey-stops{gap:14px}}
