@@ -87,3 +87,36 @@ body.motion-reduced .footer-wordmark.footer-dots-ready{cursor:auto}
 .brand-caption-accent{color:#ff4552}
 @media(max-width:720px){.brand-caption{font-size:8px;gap:4px;padding-left:10px;letter-spacing:.2em}}
 @media(max-width:370px){.brand-caption{font-size:7px;letter-spacing:.14em}}
+
+/* Bouton d'en-tête : libellé + carré rouge à flèche ; au survol, le rouge envahit tout le bouton */
+.header-cta{position:relative;display:inline-flex;align-items:stretch;height:46px;background:#fff;color:var(--ink);font-size:13px;font-weight:600;letter-spacing:-.01em;white-space:nowrap;overflow:hidden;isolation:isolate}
+.header-cta::before{content:'';position:absolute;inset:0;background:var(--red);transform:scaleX(0);transform-origin:right;transition:transform .45s cubic-bezier(.65,0,.2,1);z-index:-1}
+.header-cta-label{display:flex;align-items:center;padding:0 18px 0 20px;transition:color .3s}
+.header-cta-icon{display:grid;place-items:center;width:46px;background:var(--red);color:#fff}
+.header-cta-icon .icon-arrow{width:20px;height:11px;stroke-width:1.6;transition:transform .45s cubic-bezier(.65,0,.2,1)}
+.header-cta:hover::before,.header-cta:focus-visible::before{transform:scaleX(1);transform-origin:left}
+.header-cta:hover .header-cta-label,.header-cta:focus-visible .header-cta-label{color:#fff}
+.header-cta:hover .icon-arrow,.header-cta:focus-visible .icon-arrow{animation:cta-arrow .55s cubic-bezier(.65,0,.2,1)}
+.header-cta:focus-visible{outline:2px solid #fff;outline-offset:3px}
+@keyframes cta-arrow{0%{transform:none}45%{transform:translateX(26px)}46%{transform:translateX(-26px)}100%{transform:none}}
+@media(max-width:720px){.header-cta{height:40px;font-size:12px;margin-left:auto;margin-right:16px}.header-cta-label{padding:0 13px 0 14px}.header-cta-icon{width:40px}}
+@media(max-width:380px){.header .header-cta{display:none}}
+@media(prefers-reduced-motion:reduce){.header-cta::before,.header-cta-label{transition:none}.header-cta:hover .icon-arrow{animation:none}}
+body.motion-reduced .header-cta::before{transition:none}
+body.motion-reduced .header-cta:hover .icon-arrow{animation:none}
+
+/* Flèches du site : longues et fines, elles glissent vers la droite (plus de diagonales) */
+.icon-arrow.icon-next{width:1.35em;height:.75em;vertical-align:.02em;stroke-width:1.5;stroke-linecap:butt}
+.icon-arrow.icon-down,.icon-arrow.icon-up{width:.6em;height:1.1em;vertical-align:-.2em;stroke-width:1.5;stroke-linecap:butt}
+.icon-arrow.icon-plus{width:14px;height:14px;stroke-width:1.5}
+.text-link span{font-size:inherit;display:inline-flex}
+.text-link .icon-next,.button .icon-next,.social-source .icon-next,.contact-direct a .icon-next,.mobile-nav .icon-next,.contact-facebook .icon-next{transition:transform .35s cubic-bezier(.2,.75,.15,1)}
+.text-link:hover span,.text-link:hover .icon-next,.button:hover .icon-next,.social-source:hover .icon-next,.contact-direct a:hover .icon-next,.contact-facebook:hover .icon-next{transform:translateX(5px)}
+.text-link:hover .icon-down{transform:translateY(3px)}
+.back-top .icon-up{transition:transform .3s}
+.back-top:hover .icon-up{transform:translateY(-3px)}
+.header-cta,.header-cta-icon{flex:none}
+.cta-short{display:none}
+@media(max-width:440px){.cta-full{display:none}.cta-short{display:inline}.header-cta{margin-right:12px}.header-cta-label{padding:0 11px 0 12px}.header-cta-icon{width:38px}.brand-caption{letter-spacing:.14em}}
+.back-top{display:inline-flex;align-items:center;gap:8px}
+.photo-expand{font-size:0}
