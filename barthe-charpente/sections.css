@@ -1,0 +1,142 @@
+/* ==========================================================================
+   Barthe Charpente — savoir-faire en cartes, coordonnées et formulaire de contact
+   (mêmes couleurs, même typographie que le reste du site)
+   ========================================================================== */
+
+/* --- Savoir-faire --------------------------------------------------------------------------- */
+.sf-intro{display:grid;grid-template-columns:1.1fr 1fr;gap:clamp(24px,5vw,90px);margin-top:clamp(30px,4vw,60px);align-items:start}
+.sf-chapo{font-size:clamp(21px,2vw,30px);line-height:1.35;letter-spacing:-.025em;font-weight:600}
+.sf-intro p:not(.sf-chapo){font-size:16px;line-height:1.8;color:#3d3b36;max-width:58ch}
+.sf-cartes{list-style:none;margin:clamp(50px,6vw,90px) 0 0;padding:0;display:grid;gap:28px}
+.sf-carte{position:relative}
+.sf-interieur{display:grid;grid-template-columns:1.05fr 1fr;min-height:min(78vh,700px);background:var(--ink);color:var(--paper);overflow:hidden;box-shadow:0 -18px 60px rgba(17,17,15,.16);transform-origin:50% 0;will-change:transform}
+.sf-carte:nth-child(even) .sf-visuel{order:-1}
+.sf-texte{padding:clamp(28px,4vw,64px);display:flex;flex-direction:column;justify-content:center}
+.sf-num{font-size:clamp(64px,7vw,124px);font-weight:800;line-height:.8;letter-spacing:-.06em;color:transparent;-webkit-text-stroke:1.2px #c29467}
+.sf-texte h3{font-size:clamp(30px,3.3vw,54px);font-weight:700;letter-spacing:-.045em;line-height:1.02;margin:22px 0 14px}
+.sf-accroche{color:#d4a476;font-size:clamp(17px,1.3vw,20px);font-weight:600;letter-spacing:-.01em;margin-bottom:16px}
+.sf-texte p:not(.sf-accroche){font-size:15.5px;line-height:1.75;color:#d6d2c8;max-width:56ch;margin-bottom:12px}
+.sf-tags{list-style:none;display:flex;flex-wrap:wrap;gap:8px;margin:16px 0 0;padding:0}
+.sf-tags li{border:1px solid rgba(242,240,233,.28);border-radius:999px;padding:8px 13px;font-size:12px;letter-spacing:.02em;color:#ece8de}
+.sf-lien{align-self:flex-start;display:inline-flex;align-items:center;gap:16px;margin-top:28px;min-height:54px;padding:0 10px 0 22px;background:var(--paper);color:var(--ink);font-size:14px;font-weight:700;transition:background .35s,color .35s}
+.sf-lien i{display:grid;place-items:center;width:36px;height:36px;border-radius:50%;background:var(--ink);color:var(--paper);font-style:normal;transition:transform .35s cubic-bezier(.22,1,.36,1)}
+.sf-lien:hover{background:#c29467}
+.sf-lien:hover i{transform:translateX(4px) rotate(-45deg)}
+.sf-visuel{position:relative;margin:0;overflow:hidden;min-height:340px;background:#1b1b18}
+.sf-visuel img{position:absolute;inset:0;width:100%;height:100%;object-fit:cover;transform-origin:50% 50%}
+.sf-visuel figcaption{position:absolute;left:18px;bottom:18px;z-index:1;background:rgba(17,17,15,.82);color:var(--paper);font-size:11px;letter-spacing:.1em;text-transform:uppercase;padding:8px 12px}
+.sf-visuel-epure{display:grid;place-items:center;background-color:#171714;background-image:linear-gradient(rgba(90,162,255,.08) 1px,transparent 1px),linear-gradient(90deg,rgba(90,162,255,.08) 1px,transparent 1px);background-size:28px 28px}
+.sf-epure{width:min(86%,560px);height:auto;overflow:visible}
+.sf-epure path{stroke:var(--paper);stroke-width:1.3;vector-effect:non-scaling-stroke;stroke-linecap:round}
+.sf-epure .e-m{stroke:#c29467}
+.sf-epure .e-f{stroke:rgba(242,240,233,.35);stroke-dasharray:4 5}
+.sf-epure .e-c{stroke:#5aa2ff}
+/* l'empilement des cartes au défilement est géré par motion.js (épinglage GSAP) */
+@media(max-width:1000px){
+  .sf-intro{grid-template-columns:1fr}
+  .sf-interieur{grid-template-columns:1fr;min-height:0}
+  .sf-carte:nth-child(even) .sf-visuel{order:-1}
+  .sf-visuel{order:-1;min-height:0;aspect-ratio:4/3}
+  .sf-texte{padding:28px 24px 32px}
+  .sf-num{font-size:64px}
+}
+
+/* --- Coordonnées : cartes cliquables ---------------------------------------------------------- */
+.contact-layout{grid-template-columns:.85fr 1.15fr;align-items:start}
+.contact-carte{display:grid;grid-template-columns:auto 1fr auto;align-items:center;column-gap:16px;padding:20px 22px;margin-top:12px;border:1px solid var(--line);transition:background .3s,border-color .3s,transform .3s}
+.contact-carte:hover{background:rgba(242,240,233,.06);border-color:#c29467}
+.contact-carte>i{grid-column:3;grid-row:1/span 2;font-style:normal;font-size:22px;transition:transform .35s cubic-bezier(.22,1,.36,1)}
+.contact-carte:hover>i{transform:translateX(5px)}
+.contact-carte-libelle{grid-column:2;font-size:11px;letter-spacing:.14em;text-transform:uppercase;color:var(--muted)}
+.contact-carte .contact-phone,.contact-carte .contact-email,.contact-carte address{grid-column:2;margin:6px 0 0;border:0;padding:0}
+.contact-carte address{font-style:normal;font-size:15px;line-height:1.5;color:var(--paper)}
+.contact-carte .contact-email{font-size:16px}
+.contact-carte-tel{background:var(--paper);color:var(--ink);border-color:var(--paper)}
+.contact-carte-tel .contact-carte-libelle{color:#6b685e}
+.contact-carte-tel:hover{background:#fff;border-color:#fff}
+.contact-carte-icone{grid-column:1;grid-row:1/span 2;display:grid;place-items:center;width:46px;height:46px;border-radius:12px;background:rgba(242,240,233,.08);color:#e0b88c;transition:background .3s,color .3s}
+.contact-carte:hover .contact-carte-icone{background:#c29467;color:var(--ink)}
+.contact-carte-tel .contact-carte-icone{background:var(--ink);color:#e7c194}
+
+/* --- Formulaire (15/10) : tient dans un écran de téléphone ; icônes, relief et contraste ------------ */
+.icones{position:absolute;width:0;height:0;overflow:hidden}
+.contact svg:not(.icones){width:22px;height:22px;flex:none;fill:none;stroke:currentColor;stroke-width:1.7;stroke-linecap:round;stroke-linejoin:round}
+.contact .formulaire{position:relative;background:#f5f1e9;color:var(--ink);padding:0;border:0;border-radius:20px;overflow:hidden;box-shadow:0 40px 90px -20px rgba(0,0,0,.7),0 0 0 1px rgba(255,255,255,.07)}
+.formulaire-tete{position:relative;display:flex;align-items:center;gap:16px;padding:20px 26px;background:radial-gradient(130% 160% at 0% 0%,#2c2a25 0%,#141412 62%);color:var(--paper)}
+.formulaire-tete:after{content:'';position:absolute;left:0;right:0;bottom:0;height:3px;background:linear-gradient(90deg,#b9844f,#e7c194 50%,#b9844f)}
+.formulaire-tete-icone{flex:none;display:grid;place-items:center;width:50px;height:50px;border-radius:14px;background:linear-gradient(150deg,#e8c194,#a8733d);color:#141412;box-shadow:0 10px 24px -6px rgba(194,148,103,.65),inset 0 1px 0 rgba(255,255,255,.45)}
+.contact .formulaire-tete-icone svg{width:27px;height:27px;stroke-width:1.8}
+.formulaire-tete .eyebrow{display:block;color:#dcb07e;margin-bottom:6px}
+.formulaire-tete h3{font-size:clamp(20px,1.9vw,27px);font-weight:700;letter-spacing:-.03em;line-height:1.12;margin:0;color:#fff}
+.formulaire-tete p{margin:6px 0 0;font-size:12px;line-height:1.4;color:#bdb8ac}
+.formulaire-corps{padding:22px 26px 24px}
+.choix-projet{border:0;padding:0;margin:0 0 18px;min-width:0}
+.choix-projet legend{font-size:14px;font-weight:700;margin-bottom:10px;padding:0;color:var(--ink)}
+.pastilles{display:grid;grid-template-columns:repeat(auto-fill,minmax(104px,1fr));gap:8px}
+.pastille{position:relative;display:block;margin:0;color:inherit}
+.pastille input{position:absolute;opacity:0;width:1px;height:1px;margin:0;padding:0;border:0}
+.pastille span{position:relative;display:flex;flex-direction:column;align-items:center;justify-content:center;gap:7px;min-height:74px;padding:10px 6px;border:1.5px solid #ddd5c6;border-radius:14px;background:linear-gradient(180deg,#fff,#f9f6ef);font-size:12.5px;font-weight:600;line-height:1.15;text-align:center;color:var(--ink);cursor:pointer;box-shadow:inset 0 1px 0 #fff,0 8px 16px -12px rgba(17,17,15,.5);transition:background .25s,color .25s,border-color .25s,box-shadow .25s,transform .25s}
+.contact .pastille span svg{width:25px;height:25px;color:#9a6534;transition:color .25s}
+.pastille:hover span{border-color:var(--ink);transform:translateY(-2px)}
+.pastille input:checked+span{background:linear-gradient(160deg,#2a2824,#0f0f0d);border-color:#0f0f0d;color:#fff;box-shadow:0 14px 26px -12px rgba(17,17,15,.85);transform:translateY(-2px)}
+.contact .pastille input:checked+span svg{color:#e7c194}
+.pastille input:checked+span:after{content:'';position:absolute;top:8px;right:8px;width:7px;height:7px;border-radius:50%;background:#e7c194;box-shadow:0 0 0 3px rgba(231,193,148,.25)}
+.pastille input:focus-visible+span{outline:2px solid #7a4f25;outline-offset:2px}
+.formulaire .champs{display:grid;grid-template-columns:1fr 1fr;gap:10px}
+.formulaire .champ{position:relative}
+.formulaire .champ-large{grid-column:1/-1}
+.formulaire .champ input,.formulaire .champ textarea{display:block;width:100%;margin:0;padding:23px 14px 8px 46px;background:#fff;color:var(--ink);border:1.5px solid #d8d0c1;border-radius:12px;font-size:16px;line-height:1.35;box-shadow:inset 0 1px 2px rgba(17,17,15,.07);transition:border-color .25s,box-shadow .25s}
+.formulaire .champ textarea{min-height:118px;resize:vertical;padding-bottom:26px}
+.formulaire .champ label{position:absolute;left:47px;top:16px;margin:0;font-size:15px;color:#6f6a60;pointer-events:none;transform-origin:left top;transition:transform .22s cubic-bezier(.22,1,.36,1),color .22s}
+.contact .champ-icone{position:absolute;left:14px;top:16px;color:#9a6534;pointer-events:none;transition:color .25s}
+.formulaire .champ input:focus+label,.formulaire .champ input:not(:placeholder-shown)+label,
+.formulaire .champ textarea:focus+label,.formulaire .champ textarea:not(:placeholder-shown)+label{transform:translateY(-9px) scale(.74);color:#8a5a2b}
+.formulaire .champ input:focus,.formulaire .champ textarea:focus{outline:0;border-color:var(--ink);box-shadow:0 0 0 4px rgba(194,148,103,.32)}
+.contact .champ :focus~.champ-icone{color:var(--ink)}
+.formulaire.a-essaye .champ :invalid,.formulaire.a-essaye .choix-projet:has(:invalid) .pastille span{border-color:#b3412f}
+.contact .formulaire.a-essaye .champ :invalid~.champ-icone{color:#b3412f}
+.compteur{position:absolute;right:12px;bottom:8px;font-size:11px;color:#8f8a7f;font-variant-numeric:tabular-nums}
+.formulaire-pied{display:flex;flex-wrap:wrap;align-items:center;gap:12px 22px;margin-top:16px}
+.bouton-envoi{position:relative;isolation:isolate;overflow:hidden;display:inline-flex;align-items:center;justify-content:space-between;gap:18px;min-height:60px;padding:0 9px 0 24px;border:0;border-radius:14px;background:linear-gradient(160deg,#2a2824,#0d0d0b);color:#fff;font-size:15px;font-weight:700;letter-spacing:-.01em;cursor:pointer;box-shadow:0 18px 34px -16px rgba(17,17,15,.9),inset 0 1px 0 rgba(255,255,255,.1);transition:color .4s}
+.bouton-envoi-fond{position:absolute;inset:0;z-index:-1;background:linear-gradient(150deg,#e8c194,#b9844f);transform:scaleX(0);transform-origin:left;transition:transform .55s cubic-bezier(.22,1,.36,1)}
+.bouton-envoi:hover,.bouton-envoi:focus-visible{color:var(--ink)}
+.bouton-envoi:hover .bouton-envoi-fond,.bouton-envoi:focus-visible .bouton-envoi-fond{transform:scaleX(1)}
+.bouton-envoi-fleche{display:grid;place-items:center;width:42px;height:42px;border-radius:11px;background:linear-gradient(150deg,#e8c194,#b9844f);color:var(--ink);transition:transform .45s cubic-bezier(.22,1,.36,1),background .4s,color .4s}
+.contact .bouton-envoi-fleche svg{width:20px;height:20px;stroke-width:1.9}
+.bouton-envoi:hover .bouton-envoi-fleche,.bouton-envoi:focus-visible .bouton-envoi-fleche{background:var(--ink);color:#e7c194;transform:translateX(3px)}
+.bouton-envoi:focus-visible{outline:2px solid #7a4f25;outline-offset:3px}
+.bouton-envoi.est-pret .bouton-envoi-fond{transform:scaleX(1)}
+.bouton-envoi.est-pret{color:var(--ink)}
+.formulaire-note{font-size:12.5px;line-height:1.45;color:#5f5a50;max-width:34ch;margin:0}
+.contact .formulaire #form-status{color:var(--ink);font-size:14px;line-height:1.6;padding:14px 16px;margin-top:16px;background:#ebe4d6;border-left:3px solid #c29467;border-radius:0 10px 10px 0}
+.contact .formulaire .form-rgpd{display:flex;align-items:flex-start;gap:8px;color:#5f5a50;font-size:12px;line-height:1.45;margin:14px 0 0}
+.contact .form-rgpd svg{width:16px;height:16px;color:#9a6534;margin-top:1px}
+@media(max-width:760px){
+  .contact-layout{grid-template-columns:1fr}
+  .contact-carte{padding:14px 16px}
+  .contact-carte-icone{width:42px;height:42px}
+  .contact .formulaire{border-top:0;padding:0;margin:0 calc(var(--gutter) * -1 + 6px);border-radius:18px}
+  .formulaire-tete{padding:15px 18px;gap:14px}
+  .formulaire-tete .eyebrow{display:none}
+  .formulaire-tete-icone{width:44px;height:44px;border-radius:12px}
+  .formulaire-tete h3{font-size:19px}
+  .formulaire-tete p{margin-top:4px}
+  .formulaire-corps{padding:16px 18px 18px}
+  .choix-projet{margin-bottom:12px}
+  .choix-projet legend{font-size:13.5px;margin-bottom:8px}
+  /* une seule rangée de tuiles qui défile au doigt : le formulaire tient dans l'écran */
+  .pastilles{display:flex;overflow-x:auto;gap:8px;margin:0 -18px;padding:3px 18px 8px;scroll-padding-inline:18px;scroll-snap-type:x proximity;scrollbar-width:none;-webkit-mask-image:linear-gradient(90deg,transparent,#000 14px,#000 calc(100% - 34px),transparent);mask-image:linear-gradient(90deg,transparent,#000 14px,#000 calc(100% - 34px),transparent)}
+  .pastilles::-webkit-scrollbar{display:none}
+  .pastille{flex:0 0 auto;scroll-snap-align:start}
+  .pastille span{min-width:84px;min-height:66px;padding:10px 12px;gap:5px;font-size:12px;white-space:nowrap}
+  .formulaire .champs{gap:8px}
+  .formulaire .champ-plein{grid-column:1/-1}
+  .formulaire .champ input,.formulaire .champ textarea{padding:21px 10px 6px 40px}
+  .formulaire .champ label{left:41px;top:15px}
+  .contact .champ-icone{left:11px;top:14px}
+  .formulaire .champ textarea{min-height:90px}
+  .formulaire-pied{margin-top:12px;gap:8px}
+  .bouton-envoi{width:100%;min-height:56px}
+  .formulaire-note{max-width:none;font-size:12px}
+  .contact .formulaire .form-rgpd{margin-top:10px}
+}

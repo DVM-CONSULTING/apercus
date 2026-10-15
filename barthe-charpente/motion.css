@@ -1,0 +1,117 @@
+/* ==========================================================================
+   Barthe Charpente — mise en mouvement (motion.js, maison3d.js)
+   Tout ce fichier ne s'applique qu'avec html.mo (mouvement autorisé, posé dans le <head>).
+   Sans JavaScript ou en « mouvement réduit », le site reste celui d'avant, entier et lisible.
+   ========================================================================== */
+
+/* --- Ouverture : l'épure du pignon se trace, puis le rideau se lève ---------------------- */
+.ouverture{display:none}
+html.avec-ouverture .ouverture{display:flex;position:fixed;inset:0;z-index:200;flex-direction:column;align-items:center;justify-content:center;gap:clamp(18px,3vh,34px);background:var(--ink);color:var(--paper);padding:24px;animation:ouverture-secours .5s 6s forwards}
+@keyframes ouverture-secours{to{opacity:0;visibility:hidden}}
+.ouverture-logo{width:min(76vw,560px);height:auto;overflow:visible;will-change:transform}
+.ouverture-titre{font-size:clamp(30px,4.6vw,64px);font-weight:800;letter-spacing:-.065em;line-height:.95;overflow:hidden;padding-bottom:.06em}
+.ouverture-legende{font-size:11px;font-weight:600;letter-spacing:.22em;text-transform:uppercase;color:#a8a69e}
+.ouverture-passer{position:absolute;right:var(--gutter);bottom:24px;font-size:11px;letter-spacing:.12em;text-transform:uppercase;color:#a8a69e;padding:14px 0}
+
+/* --- Premier écran : lueur de fin de journée et invitation à défiler ---------------------- */
+.hero-lueur{position:absolute;inset:0;z-index:1;pointer-events:none;background:radial-gradient(ellipse 42vw 34vw at 100% 0%,rgba(255,214,150,.42),rgba(255,190,120,.12) 48%,transparent 72%);mix-blend-mode:screen;opacity:0}
+html.mo .hero-lueur{animation:lueur 9s ease-in-out 1s infinite alternate}
+@keyframes lueur{0%{opacity:.35;transform:translate3d(0,0,0) scale(1)}100%{opacity:.85;transform:translate3d(-1.5vw,1vw,0) scale(1.06)}}
+.hero-defiler{position:absolute;z-index:5;left:50%;bottom:26px;transform:translateX(-50%);display:flex;flex-direction:column;align-items:center;gap:10px;color:#fff;font-size:11px;letter-spacing:.16em;text-transform:uppercase;text-shadow:0 1px 8px rgba(0,0,0,.5);pointer-events:none}
+.hero-defiler i{position:relative;display:block;width:1px;height:46px;background:rgba(255,255,255,.28);overflow:hidden}
+.hero-defiler i:after{content:'';position:absolute;left:0;top:0;width:1px;height:100%;background:#fff;transform:translateY(-100%)}
+html.mo .hero-defiler i:after{animation:defiler 2.2s cubic-bezier(.65,0,.35,1) infinite}
+@keyframes defiler{0%{transform:translateY(-100%)}55%{transform:translateY(0)}100%{transform:translateY(100%)}}
+html:not(.mo) .hero-defiler{display:none}
+@media(max-width:760px){.hero-defiler{bottom:22px;left:auto;right:var(--gutter);transform:none}.hero-defiler span{display:none}}
+
+/* --- Bandeau défilant des savoir-faire ---------------------------------------------------- */
+.defile{background:var(--paper);color:var(--ink);overflow:hidden;border-top:1px solid #d1d0c8;padding:clamp(18px,3vw,38px) 0;white-space:nowrap}
+.defile-piste{display:inline-flex;align-items:center;gap:clamp(22px,3vw,48px);will-change:transform}
+.defile span{font-size:clamp(46px,8.5vw,150px);font-weight:800;letter-spacing:-.06em;line-height:1}
+.defile span:nth-child(4n+3){color:transparent;-webkit-text-stroke:1.5px var(--ink)}
+.defile i{display:block;width:clamp(16px,1.6vw,28px);height:clamp(16px,1.6vw,28px);background:#c29467;transform:rotate(45deg);flex:none}
+html:not(.mo) .defile-piste{flex-wrap:wrap;white-space:normal;padding:0 var(--gutter)}
+
+/* --- Section des gestes : maison 3D --------------------------------------------------------- */
+.craft-3d{position:absolute;inset:0;width:100%;height:100%;z-index:-1;display:none}
+.craft.a-3d .craft-3d{display:block}
+.craft.a-3d .craft-visual{visibility:hidden}
+.craft.a-3d .craft-shade{background:linear-gradient(180deg,rgba(17,17,15,.55),transparent 22%,transparent 62%,rgba(17,17,15,.82))}
+.craft.a-3d .craft-words{place-items:start;padding:clamp(80px,11vh,120px) var(--gutter) 0}
+.craft.a-3d .craft-word{font-size:clamp(54px,9vw,150px);color:transparent;-webkit-text-stroke:1.4px rgba(242,240,233,.7);left:var(--gutter);top:clamp(80px,11vh,120px)}
+.craft.a-3d .craft-word:last-child{font-size:clamp(46px,7.6vw,128px)}
+.craft-etape{display:none}
+.craft.a-3d .craft-etape{display:flex;flex-direction:column;gap:8px;position:absolute;right:var(--gutter);bottom:clamp(120px,17vh,170px);max-width:340px;text-align:right;text-shadow:0 1px 12px rgba(0,0,0,.6)}
+.craft-etape-num{font-size:11px;font-weight:600;letter-spacing:.14em;color:#c29467}
+.craft-etape-txt{font-size:clamp(15px,1.3vw,19px);line-height:1.35;font-weight:600}
+.craft-etape-note{font-size:11px;letter-spacing:.08em;color:rgba(242,240,233,.6)}
+@media(max-width:1000px),(max-height:699px){
+  html.mo .craft{height:520svh}
+  html.mo .craft-pin{position:sticky;top:0;height:100svh;min-height:0}
+  .craft.a-3d .craft-etape{left:var(--gutter);right:var(--gutter);text-align:left;bottom:auto;top:clamp(150px,23vh,210px);max-width:none}
+  .craft.a-3d .craft-word{font-size:clamp(46px,15vw,90px)}
+}
+
+/* --- Galerie : légère inclinaison selon la vitesse, parallaxe des photos -------------------- */
+html.mo .project-photo img{will-change:transform}
+
+/* --- Portrait : les lames se retirent comme un bardage ------------------------------------- */
+.lattes{position:absolute;inset:0;display:flex;flex-direction:column;pointer-events:none;z-index:1}
+.lattes span{flex:1;background:var(--ink);border-bottom:1px solid rgba(242,240,233,.06)}
+.lattes span:nth-child(odd){transform-origin:left center}
+.lattes span:nth-child(even){transform-origin:right center}
+
+/* --- Pied de page : grande signature typographique ------------------------------------------ */
+.pied-signe{font-size:clamp(52px,12.4vw,220px);font-weight:800;letter-spacing:-.075em;line-height:.9;margin:6px 0 34px -.04em;white-space:nowrap;overflow:hidden;padding-bottom:.08em}
+.pied-signe .char{display:inline-block}
+
+/* --- Curseur (ordinateur) -------------------------------------------------------------------- */
+.curseur{position:fixed;left:0;top:0;z-index:150;pointer-events:none;width:44px;height:44px;margin:-22px 0 0 -22px;border:1px solid rgba(242,240,233,.9);border-radius:50%;mix-blend-mode:difference;display:grid;place-items:center;transition:width .35s cubic-bezier(.22,1,.36,1),height .35s cubic-bezier(.22,1,.36,1),margin .35s cubic-bezier(.22,1,.36,1),background .35s,opacity .3s;opacity:0}
+.curseur span{font-size:11px;font-weight:600;letter-spacing:.14em;color:#11110f;opacity:0;transition:opacity .2s}
+.curseur.est-visible{opacity:1}
+.curseur.sur-lien{width:64px;height:64px;margin:-32px 0 0 -32px;background:rgba(242,240,233,.12)}
+.curseur.voir{width:104px;height:104px;margin:-52px 0 0 -52px;background:#f2f0e9;mix-blend-mode:normal;border-color:transparent}
+.curseur.voir span{opacity:1}
+
+/* --- Découpage des titres (SplitText) ---------------------------------------------------------- */
+html.mo .ligne-masque{overflow:hidden;padding-bottom:.08em;margin-bottom:-.08em}
+
+/* La barre d'appel du téléphone ne doit pas couvrir les étapes de la section collée */
+@media(max-width:760px){html.mo .craft-bottom{bottom:96px}html.mo .craft.a-3d .craft-etape{top:clamp(130px,19vh,180px)}}
+
+/* Quatre gestes : HABILLER rejoint TRACER, TAILLER, ASSEMBLER */
+.craft.a-3d .craft-word:nth-child(3),.craft.a-3d .craft-word:nth-child(4){font-size:clamp(46px,7.6vw,128px)}
+@media(max-width:760px){
+  .craft.a-3d .craft-bottom{display:none}
+  .craft.a-3d .craft-word,.craft.a-3d .craft-word:nth-child(n){font-size:clamp(40px,13vw,78px)}
+}
+
+/* Galerie pilotée par le défilement aussi sur téléphone : tout tient dans l'écran */
+@media(max-width:760px){
+  .gallery-pinned{min-height:100svh;display:flex;flex-direction:column;justify-content:center}
+  .gallery-pinned .project-photo{height:min(46svh,440px);min-height:220px}
+  .gallery-pinned .projects-title h2{font-size:11.5vw}
+}
+
+/* Premier écran recouvert par la section suivante : la photo reste collée (position sticky, gérée par le
+   navigateur, donc fluide), « L'esprit Barthe » monte par-dessus et la photo s'assombrit doucement.
+   L'espace ajouté sous la photo (100svh) est repris par la marge négative : la page garde sa longueur. */
+.hero-voile{position:absolute;inset:0;z-index:6;background:#0b0c0b;opacity:0;pointer-events:none}
+html.mo .hero-rideau{margin-bottom:-100svh}
+html.mo .hero-rideau-espace{height:100svh}
+html.mo .hero-rideau .hero{position:sticky;top:var(--hero-haut,0px);background:#0b0c0b}
+html.mo #atelier{position:relative;z-index:2;border-radius:24px 24px 0 0;box-shadow:0 -22px 50px rgba(0,0,0,.3)}
+@keyframes hero-assombrir{to{opacity:.7}}
+@supports (animation-timeline: view()){
+  html.mo body{timeline-scope:--rideau}
+  html.mo #atelier{view-timeline:--rideau block}
+  html.mo .hero-voile{animation:hero-assombrir linear both;animation-timeline:--rideau;animation-range:entry 0% entry 100%}
+}
+/* le titre du premier écran s'efface en montant, l'invitation « Défiler » disparaît (même principe) */
+@keyframes hero-sortie{to{opacity:0;translate:0 -18%}}
+@keyframes hero-defiler-sortie{to{opacity:0}}
+@supports (animation-timeline: scroll()){
+  html.mo .hero-content{animation:hero-sortie linear both;animation-timeline:scroll(root);animation-range:0 80svh}
+  html.mo .hero-defiler{animation:hero-defiler-sortie linear both;animation-timeline:scroll(root);animation-range:0 15svh}
+}

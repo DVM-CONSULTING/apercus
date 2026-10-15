@@ -1,0 +1,145 @@
+<!doctype html>
+<html lang="fr">
+<head>
+<meta charset="utf-8"><meta name="viewport" content="width=device-width, initial-scale=1"><meta name="theme-color" content="#11110f">
+<title>Confidentialité et cookies — Barthe Charpente</title>
+<meta name="description" content="Comment Barthe Charpente utilise vos données personnelles et les cookies, et comment exercer vos droits.">
+<meta name="robots" content="noindex,nofollow">
+<link rel="icon" href="../assets/logo-barthe-original.png" type="image/png"><link rel="stylesheet" href="../style.css"><link rel="stylesheet" href="../assets/bd-kit.css">
+<!-- kit-bd:debut -->
+<!-- Kit de mesure Belle Devanture v2 : rien n'est envoyé à Google avant l'accord du visiteur -->
+<script>
+(function () {
+  var ID = '[À CONFIRMER — DAVID : identifiant de mesure]';
+  window.dataLayer = window.dataLayer || [];
+  window.gtag = window.gtag || function () { dataLayer.push(arguments); };
+  // consentement refusé par défaut, sauf si le site le gère déjà (Complianz, Site Kit…) : on ne le redéfinit jamais
+  var managed = [].some.call(window.dataLayer, function (a) { return a && a[0] === 'consent' && a[1] === 'default'; });
+  if (!managed) gtag('consent', 'default', { analytics_storage: 'denied', ad_storage: 'denied', ad_user_data: 'denied', ad_personalization: 'denied' });
+  var on = false, queue = [], errors = 0;
+  // rien ne part avant l'accord : les signaux attendent (20 au plus) et partent à l'accord, sinon jamais
+  function send(name, params) { if (on) gtag('event', name, params || {}); else if (queue.length < 20) queue.push([name, params || {}]); }
+  // jamais de donnée personnelle : e-mails et longs numéros masqués, 100 caractères au plus
+  function clean(v) { return String(v || '').replace(/[\w.+-]+@[\w-]+\.[\w.]+/g, '[e-mail]').replace(/\d{6,}/g, '[n]').slice(0, 100); }
+  // à appeler par le bandeau de consentement quand le visiteur accepte la mesure d'audience (à chaque page tant que son accord vaut)
+  window.bdAnalyticsConsent = function () {
+    if (on) return;
+    on = true;
+    gtag('consent', 'update', { analytics_storage: 'granted' });
+    // la balise Google du site est déjà là (Site Kit, Tag Manager…) : on ne la charge pas une seconde fois ; une balise
+    // d'un autre usage seulement (Google Ads…) ne mesure pas l'audience : on y ajoute alors la mesure du site
+    var tags = [].map.call(document.querySelectorAll('script[src*="googletagmanager.com/gtag/js"], script[src*="googletagmanager.com/gtm.js"]'), function (t) { return (/[?&]id=([^&]+)/.exec(t.src) || [])[1] || ''; });
+    var configured = [].some.call(window.dataLayer, function (a) { return a && a[0] === 'config' && a[1] === ID; });
+    // cookie de mesure limité à 390 jours (CNIL : 13 mois au plus ; Google : 2 ans par défaut)
+    if (!tags.length) {
+      gtag('js', new Date());
+      gtag('config', ID, { cookie_expires: 33696000 });
+      var s = document.createElement('script');
+      s.async = true;
+      s.src = 'https://www.googletagmanager.com/gtag/js?id=' + ID;
+      document.head.appendChild(s);
+    } else if (!configured && tags.every(function (t) { return t && t !== ID && !/^GTM?-/.test(t); })) {
+      gtag('config', ID, { cookie_expires: 33696000 });
+    }
+    var first = true;
+    try { first = !sessionStorage.getItem('bd_kit'); sessionStorage.setItem('bd_kit', '1'); } catch (e) {}
+    if (first) gtag('event', 'bd_kit', { kit_version: '2' });
+    queue.splice(0).forEach(function (q) { gtag('event', q[0], q[1]); });
+  };
+  // à appeler par le bandeau quand le visiteur retire son accord : plus rien ne part ensuite, consentement Google refusé
+  window.bdAnalyticsRevoke = function () {
+    on = false;
+    queue.length = 0;
+    gtag('consent', 'update', { analytics_storage: 'denied' });
+  };
+  // formulaires : à appeler par le site après un envoi réellement réussi, ou quand l'envoi échoue
+  window.bdFormSent = function (name) { send('bd_form_sent', { form_name: clean(name || 'formulaire').slice(0, 40) }); };
+  window.bdFormFailed = function (name) { send('bd_form_failed', { form_name: clean(name || 'formulaire').slice(0, 40) }); };
+  // page introuvable : automatique sur WordPress (classe error404) ou avec <body data-bd-404>, sinon appeler bdNotFound()
+  window.bdNotFound = function () { send('bd_404'); };
+  document.addEventListener('DOMContentLoaded', function () {
+    var b = document.body;
+    if (b && (b.classList.contains('error404') || b.hasAttribute('data-bd-404'))) window.bdNotFound();
+    // WPForms sans AJAX : la page se recharge et affiche sa confirmation
+    if (document.querySelector('.wpforms-confirmation-container-full, .wpforms-confirmation-container')) window.bdFormSent('contact');
+  });
+  // appuis sur un numéro de téléphone ou une adresse e-mail (un clic n'est pas un contact confirmé)
+  document.addEventListener('click', function (e) {
+    var a = e.target && e.target.closest ? e.target.closest('a[href^="tel:"], a[href^="mailto:"]') : null;
+    if (a) send(a.getAttribute('href').indexOf('tel:') === 0 ? 'bd_phone_click' : 'bd_email_click');
+  }, true);
+  // bugs vus par les visiteurs : erreurs JavaScript et fichiers qui ne se chargent pas (5 au plus par page)
+  window.addEventListener('error', function (e) {
+    if (errors >= 5) return;
+    var t = e.target;
+    if (t && t !== window && (t.src || t.href)) { errors++; send('bd_resource_error', { error_message: clean(String(t.src || t.href).split('?')[0]) }); return; }
+    errors++;
+    send('bd_js_error', { error_message: clean(e.message) });
+  }, true);
+  window.addEventListener('unhandledrejection', function (e) {
+    if (errors >= 5) return;
+    errors++;
+    send('bd_js_error', { error_message: clean(e.reason && e.reason.message ? e.reason.message : e.reason) });
+  });
+  // bandeaux courants : Complianz (WordPress) — accord déjà donné ou donné pendant la visite
+  document.addEventListener('cmplz_fire_categories', function (e) {
+    var c = e.detail && e.detail.categories;
+    if (c && c.indexOf('statistics') >= 0) window.bdAnalyticsConsent();
+  });
+  // formulaires des extensions WordPress courantes et rendez-vous Calendly : comptés sans rien ajouter
+  document.addEventListener('wpcf7mailsent', function () { window.bdFormSent('contact'); });
+  document.addEventListener('wpcf7mailfailed', function () { window.bdFormFailed('contact'); });
+  window.addEventListener('message', function (e) {
+    if (e.origin === 'https://calendly.com' && e.data && e.data.event === 'calendly.event_scheduled') window.bdFormSent('rendez-vous');
+  });
+  document.addEventListener('DOMContentLoaded', function () {
+    var $ = window.jQuery;
+    if (!$) return;
+    $(document).on('submit_success', function () { window.bdFormSent('contact'); }); // Elementor
+    $(document).on('wpformsAjaxSubmitSuccess', function () { window.bdFormSent('contact'); }); // WPForms
+    $(document).on('fluentform_submission_success', function () { window.bdFormSent('contact'); }); // Fluent Forms
+  });
+})();
+</script>
+<!-- Le bandeau de consentement appelle bdAnalyticsConsent() quand le visiteur accepte la mesure d'audience
+     (Complianz : automatique), et bdAnalyticsRevoke() s'il retire son accord. -->
+<!-- kit-bd:fin -->
+<script defer src="../assets/bd-kit.js"></script>
+</head>
+<body class="page-simple">
+<a class="skip" href="#main">Aller au contenu</a>
+<header class="header"><a class="brand" href="../" aria-label="Barthe Charpente, accueil"><img src="../assets/logo-barthe-blanc.png" alt="Barthe Charpente — logo officiel en blanc" width="512" height="512"></a><a class="header-contact" href="../#contact">Parlons de votre projet</a></header>
+<main id="main">
+<article class="page-legale">
+<span class="eyebrow">BARTHE CHARPENTE · VOS DONNÉES</span>
+<h1>Confidentialité et cookies</h1>
+<section><h2>Qui est responsable de vos données</h2>
+<p>Josselyn Barthe, entrepreneur individuel (EI), Barthe Charpente, 93 rue Jean Monnet, 38920 Crolles — <a href="mailto:contact@barthecharpente.fr">contact@barthecharpente.fr</a> — <a href="tel:+33687735178">06 87 73 51 78</a>.</p></section>
+<section><h2>Ce que nous recueillons, et pourquoi</h2>
+<ul>
+<li><strong>Votre demande de contact ou de devis</strong> (nom, e-mail, type de projet, message ; téléphone et commune du chantier si vous les indiquez) : pour vous répondre et préparer un éventuel devis. Base légale : les mesures précontractuelles prises à votre demande. Les champs marqués d’un astérisque sont nécessaires pour vous répondre ; le téléphone et la commune sont facultatifs.</li>
+<li><strong>La mesure d’audience</strong>, uniquement si vous l’acceptez (voir « Cookies » ci-dessous). Base légale : votre consentement, que vous pouvez retirer à tout moment.</li>
+</ul>
+<p>Aujourd’hui, le formulaire du site prépare un e-mail dans votre propre messagerie : rien n’est envoyé ni enregistré par le site tant que vous n’envoyez pas vous-même ce message.</p></section>
+<section><h2>Qui y a accès</h2>
+<p>Josselyn Barthe uniquement. Prestataires techniques : l’hébergeur du site ([À CONFIRMER — DAVID : hébergeur]) et, si vous acceptez la mesure d’audience, Google (Google Analytics). Vos données ne sont ni vendues ni cédées.</p></section>
+<section><h2>Combien de temps nous les gardons</h2>
+<p>Demandes de contact et de devis : [À CONFIRMER — CLIENT : durée de conservation ; repère de la CNIL : 3 ans après le dernier contact venant de vous]. Données de mesure d’audience : [À CONFIRMER — DAVID : durée réglée dans Google Analytics]. Votre choix sur les cookies : 6 mois.</p></section>
+<section id="cookies"><h2>Cookies et mesure d’audience</h2>
+<p>Ce site n’utilise aucun cookie publicitaire. Avec votre accord seulement, il mesure sa fréquentation et les erreurs rencontrées avec <strong>Google Analytics</strong> (Google Ireland Limited) : pages vues, appuis sur le téléphone ou l’e-mail, demandes envoyées, erreurs techniques. Sans votre accord, rien n’est envoyé à Google.</p>
+<p>Les cookies de mesure (« _ga ») sont conservés 13 mois au plus. Google peut transférer des données aux États-Unis ; ce transfert est encadré par le cadre de protection des données UE–États-Unis (Data Privacy Framework) auquel Google adhère.</p>
+<p>Votre choix (accepter ou refuser) est gardé 6 mois dans votre navigateur, puis redemandé. Vous pouvez le changer à tout moment : <button type="button" class="bd-cookies" data-bd-cookies>Gérer mes cookies</button>.</p>
+<p>Le lien « Nous situer » ouvre Google Maps dans un nouvel onglet : la carte n’est chargée que si vous cliquez.</p></section>
+<section><h2>Vos droits</h2>
+<p>Vous pouvez demander l’accès à vos données, leur rectification, leur effacement, la limitation de leur utilisation, vous y opposer, ou les recevoir dans un format courant (portabilité). Écrivez à <a href="mailto:contact@barthecharpente.fr">contact@barthecharpente.fr</a>. Vous pouvez aussi adresser une réclamation à la CNIL (<a href="https://www.cnil.fr/fr/plaintes" target="_blank" rel="noopener">cnil.fr</a>).</p></section>
+</article>
+</main>
+<footer class="footer"><div class="footer-identity"><a class="footer-brand" href="../" aria-label="Barthe Charpente, accueil"><img src="../assets/logo-barthe-original.png" alt="Logo officiel de Barthe Charpente" width="512" height="512" loading="lazy"></a><p>Du bois.<br>Des liens qui durent.</p><span>CROLLES, ISÈRE<br>AU PIED DES ALPES</span></div><div class="footer-bottom"><p class="bd-signature">© <span data-annee>2026</span> Barthe Charpente — Digital experience by <a href="https://belledevanture.fr" target="_blank" rel="noopener">Belle Devanture</a></p><span>LE BOIS. EN GRAND.</span><a href="../mentions-legales/">Mentions légales</a><a href="../politique-confidentialite/">Confidentialité</a><button type="button" class="bd-cookies" data-bd-cookies>Gérer mes cookies</button><a href="../">Retour à l’accueil</a></div></footer>
+<a class="barre-appel" href="tel:+33687735178"><span>Appeler Josselyn</span><span>06 87 73 51 78</span></a>
+<div class="bd-consentement" role="region" aria-label="Vos choix sur les cookies" data-bd-consentement data-mesure="" data-barre-appel=".barre-appel" hidden>
+<div class="bd-consentement__interieur">
+<p class="bd-consentement__texte">Nous mesurons la fréquentation de ce site et les erreurs rencontrées avec Google Analytics, uniquement si vous l’acceptez. Vous pouvez changer d’avis à tout moment avec le lien « Gérer mes cookies » en bas de page. <a href="../politique-confidentialite/#cookies">En savoir plus</a></p>
+<div class="bd-consentement__actions"><button type="button" class="bd-consentement__bouton" data-choix="refuse">Refuser</button><button type="button" class="bd-consentement__bouton" data-choix="accepte">Accepter</button></div>
+</div>
+</div>
+</body></html>

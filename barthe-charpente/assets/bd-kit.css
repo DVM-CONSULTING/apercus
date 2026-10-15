@@ -1,0 +1,40 @@
+/* Kit Belle Devanture — habillé aux couleurs de Barthe Charpente (variables --bd-*).
+   Styles du bandeau repris de kit/astro/Consentement.astro ; seules les variables changent. */
+:root{--bd-fond:#11110f;--bd-texte:#f2f0e9;--bd-bordure:rgba(242,240,233,.23);--bd-rayon:0;--bd-rayon-bouton:0;--bd-police:Manrope,Arial,sans-serif}
+
+.bd-consentement{position:fixed;inset-inline:.75rem;inset-block-end:.75rem;z-index:90;max-width:64rem;margin-inline:auto;background:var(--bd-fond,#fff);color:var(--bd-texte,#1a1a1a);border:1px solid var(--bd-bordure,#d4d4d4);border-radius:var(--bd-rayon,.5rem);box-shadow:0 8px 30px rgb(0 0 0 / .12);font-family:var(--bd-police,inherit)}
+.bd-consentement[hidden]{display:none}
+.bd-consentement__interieur{display:flex;flex-wrap:wrap;gap:.75rem 1.5rem;align-items:center;justify-content:space-between;padding:1rem 1.25rem}
+.bd-consentement__texte{margin:0;flex:1 1 28rem;font-size:.875rem;line-height:1.5}
+.bd-consentement__texte a{color:inherit;text-decoration:underline;display:inline-block;padding:12px 0;margin:-12px 0}
+.bd-consentement__actions{display:flex;gap:.75rem;flex:0 0 auto}
+/* Les deux boutons sont IDENTIQUES : même taille, même couleur, même poids (CNIL). */
+.bd-consentement__bouton{font:inherit;font-weight:500;min-height:44px;min-width:7.5rem;padding:.5rem 1.25rem;border:1px solid currentColor;border-radius:var(--bd-rayon-bouton,999px);background:transparent;color:inherit;cursor:pointer}
+.bd-consentement__bouton:hover{background:color-mix(in oklab,currentColor 8%,transparent)}
+.bd-consentement__bouton:focus-visible,.bd-consentement__texte a:focus-visible{outline:2px solid currentColor;outline-offset:2px}
+
+.bd-cookies{font:inherit;color:inherit;background:none;border:0;padding:0;cursor:pointer;text-decoration:underline;text-underline-offset:.2em;text-align:inherit}
+.bd-signature{margin:0}
+.bd-signature a{color:inherit;text-decoration:underline;text-underline-offset:.2em}
+.footer-bottom a{text-decoration:none}
+
+/* Formulaire : piège à robots (jamais visible) et mention données personnelles */
+.bd-form__piege{position:absolute;left:-10000px;width:1px;height:1px;overflow:hidden}
+.form-rgpd{font-size:11px;line-height:1.7;color:var(--muted,#a8a69e);margin-top:18px}
+.form-rgpd a{text-decoration:underline}
+
+/* Pages légales et page introuvable : mêmes couleurs, même typographie que l'accueil */
+.page-simple .header{position:relative;background:var(--ink)}
+.page-legale{background:var(--paper);color:var(--ink);padding:70px var(--gutter) 100px}
+.page-legale .eyebrow{display:block;margin-bottom:22px}
+.page-legale h1{font-size:clamp(44px,7vw,110px);line-height:.92;letter-spacing:-.065em;margin-bottom:55px;max-width:14ch}
+.page-legale section{max-width:760px;border-top:1px solid #d1d0c8;padding:26px 0 8px}
+.page-legale h2{font-size:20px;letter-spacing:-.02em;line-height:1.3;margin-bottom:12px;font-weight:600}
+.page-legale p,.page-legale li{font-size:15px;line-height:1.75;margin-bottom:12px}
+.page-legale ul{padding-left:1.1em;margin:0 0 12px}
+.page-legale a{text-decoration:underline;text-underline-offset:.2em}
+.page-legale a:focus-visible,.page-legale button:focus-visible{outline-color:#7a4f25}
+.page-404{min-height:70svh;display:flex;flex-direction:column;justify-content:center}
+.page-404 h1{max-width:12ch}
+.page-404 .text-link{align-self:flex-start;margin-top:30px;font-size:14px}
+@media(max-width:760px){.page-legale{padding:45px var(--gutter) 70px}.page-legale h1{margin-bottom:35px}.page-legale p,.page-legale li{font-size:14px}}

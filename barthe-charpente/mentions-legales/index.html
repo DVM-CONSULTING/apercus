@@ -1,0 +1,151 @@
+<!doctype html>
+<html lang="fr">
+<head>
+<meta charset="utf-8"><meta name="viewport" content="width=device-width, initial-scale=1"><meta name="theme-color" content="#11110f">
+<title>Mentions légales — Barthe Charpente</title>
+<meta name="description" content="Mentions légales du site Barthe Charpente : éditeur, hébergeur, assurance, médiation et crédits.">
+<meta name="robots" content="noindex,nofollow">
+<link rel="icon" href="../assets/logo-barthe-original.png" type="image/png"><link rel="stylesheet" href="../style.css"><link rel="stylesheet" href="../assets/bd-kit.css">
+<!-- kit-bd:debut -->
+<!-- Kit de mesure Belle Devanture v2 : rien n'est envoyé à Google avant l'accord du visiteur -->
+<script>
+(function () {
+  var ID = '[À CONFIRMER — DAVID : identifiant de mesure]';
+  window.dataLayer = window.dataLayer || [];
+  window.gtag = window.gtag || function () { dataLayer.push(arguments); };
+  // consentement refusé par défaut, sauf si le site le gère déjà (Complianz, Site Kit…) : on ne le redéfinit jamais
+  var managed = [].some.call(window.dataLayer, function (a) { return a && a[0] === 'consent' && a[1] === 'default'; });
+  if (!managed) gtag('consent', 'default', { analytics_storage: 'denied', ad_storage: 'denied', ad_user_data: 'denied', ad_personalization: 'denied' });
+  var on = false, queue = [], errors = 0;
+  // rien ne part avant l'accord : les signaux attendent (20 au plus) et partent à l'accord, sinon jamais
+  function send(name, params) { if (on) gtag('event', name, params || {}); else if (queue.length < 20) queue.push([name, params || {}]); }
+  // jamais de donnée personnelle : e-mails et longs numéros masqués, 100 caractères au plus
+  function clean(v) { return String(v || '').replace(/[\w.+-]+@[\w-]+\.[\w.]+/g, '[e-mail]').replace(/\d{6,}/g, '[n]').slice(0, 100); }
+  // à appeler par le bandeau de consentement quand le visiteur accepte la mesure d'audience (à chaque page tant que son accord vaut)
+  window.bdAnalyticsConsent = function () {
+    if (on) return;
+    on = true;
+    gtag('consent', 'update', { analytics_storage: 'granted' });
+    // la balise Google du site est déjà là (Site Kit, Tag Manager…) : on ne la charge pas une seconde fois ; une balise
+    // d'un autre usage seulement (Google Ads…) ne mesure pas l'audience : on y ajoute alors la mesure du site
+    var tags = [].map.call(document.querySelectorAll('script[src*="googletagmanager.com/gtag/js"], script[src*="googletagmanager.com/gtm.js"]'), function (t) { return (/[?&]id=([^&]+)/.exec(t.src) || [])[1] || ''; });
+    var configured = [].some.call(window.dataLayer, function (a) { return a && a[0] === 'config' && a[1] === ID; });
+    // cookie de mesure limité à 390 jours (CNIL : 13 mois au plus ; Google : 2 ans par défaut)
+    if (!tags.length) {
+      gtag('js', new Date());
+      gtag('config', ID, { cookie_expires: 33696000 });
+      var s = document.createElement('script');
+      s.async = true;
+      s.src = 'https://www.googletagmanager.com/gtag/js?id=' + ID;
+      document.head.appendChild(s);
+    } else if (!configured && tags.every(function (t) { return t && t !== ID && !/^GTM?-/.test(t); })) {
+      gtag('config', ID, { cookie_expires: 33696000 });
+    }
+    var first = true;
+    try { first = !sessionStorage.getItem('bd_kit'); sessionStorage.setItem('bd_kit', '1'); } catch (e) {}
+    if (first) gtag('event', 'bd_kit', { kit_version: '2' });
+    queue.splice(0).forEach(function (q) { gtag('event', q[0], q[1]); });
+  };
+  // à appeler par le bandeau quand le visiteur retire son accord : plus rien ne part ensuite, consentement Google refusé
+  window.bdAnalyticsRevoke = function () {
+    on = false;
+    queue.length = 0;
+    gtag('consent', 'update', { analytics_storage: 'denied' });
+  };
+  // formulaires : à appeler par le site après un envoi réellement réussi, ou quand l'envoi échoue
+  window.bdFormSent = function (name) { send('bd_form_sent', { form_name: clean(name || 'formulaire').slice(0, 40) }); };
+  window.bdFormFailed = function (name) { send('bd_form_failed', { form_name: clean(name || 'formulaire').slice(0, 40) }); };
+  // page introuvable : automatique sur WordPress (classe error404) ou avec <body data-bd-404>, sinon appeler bdNotFound()
+  window.bdNotFound = function () { send('bd_404'); };
+  document.addEventListener('DOMContentLoaded', function () {
+    var b = document.body;
+    if (b && (b.classList.contains('error404') || b.hasAttribute('data-bd-404'))) window.bdNotFound();
+    // WPForms sans AJAX : la page se recharge et affiche sa confirmation
+    if (document.querySelector('.wpforms-confirmation-container-full, .wpforms-confirmation-container')) window.bdFormSent('contact');
+  });
+  // appuis sur un numéro de téléphone ou une adresse e-mail (un clic n'est pas un contact confirmé)
+  document.addEventListener('click', function (e) {
+    var a = e.target && e.target.closest ? e.target.closest('a[href^="tel:"], a[href^="mailto:"]') : null;
+    if (a) send(a.getAttribute('href').indexOf('tel:') === 0 ? 'bd_phone_click' : 'bd_email_click');
+  }, true);
+  // bugs vus par les visiteurs : erreurs JavaScript et fichiers qui ne se chargent pas (5 au plus par page)
+  window.addEventListener('error', function (e) {
+    if (errors >= 5) return;
+    var t = e.target;
+    if (t && t !== window && (t.src || t.href)) { errors++; send('bd_resource_error', { error_message: clean(String(t.src || t.href).split('?')[0]) }); return; }
+    errors++;
+    send('bd_js_error', { error_message: clean(e.message) });
+  }, true);
+  window.addEventListener('unhandledrejection', function (e) {
+    if (errors >= 5) return;
+    errors++;
+    send('bd_js_error', { error_message: clean(e.reason && e.reason.message ? e.reason.message : e.reason) });
+  });
+  // bandeaux courants : Complianz (WordPress) — accord déjà donné ou donné pendant la visite
+  document.addEventListener('cmplz_fire_categories', function (e) {
+    var c = e.detail && e.detail.categories;
+    if (c && c.indexOf('statistics') >= 0) window.bdAnalyticsConsent();
+  });
+  // formulaires des extensions WordPress courantes et rendez-vous Calendly : comptés sans rien ajouter
+  document.addEventListener('wpcf7mailsent', function () { window.bdFormSent('contact'); });
+  document.addEventListener('wpcf7mailfailed', function () { window.bdFormFailed('contact'); });
+  window.addEventListener('message', function (e) {
+    if (e.origin === 'https://calendly.com' && e.data && e.data.event === 'calendly.event_scheduled') window.bdFormSent('rendez-vous');
+  });
+  document.addEventListener('DOMContentLoaded', function () {
+    var $ = window.jQuery;
+    if (!$) return;
+    $(document).on('submit_success', function () { window.bdFormSent('contact'); }); // Elementor
+    $(document).on('wpformsAjaxSubmitSuccess', function () { window.bdFormSent('contact'); }); // WPForms
+    $(document).on('fluentform_submission_success', function () { window.bdFormSent('contact'); }); // Fluent Forms
+  });
+})();
+</script>
+<!-- Le bandeau de consentement appelle bdAnalyticsConsent() quand le visiteur accepte la mesure d'audience
+     (Complianz : automatique), et bdAnalyticsRevoke() s'il retire son accord. -->
+<!-- kit-bd:fin -->
+<script defer src="../assets/bd-kit.js"></script>
+</head>
+<body class="page-simple">
+<a class="skip" href="#main">Aller au contenu</a>
+<header class="header"><a class="brand" href="../" aria-label="Barthe Charpente, accueil"><img src="../assets/logo-barthe-blanc.png" alt="Barthe Charpente — logo officiel en blanc" width="512" height="512"></a><a class="header-contact" href="../#contact">Parlons de votre projet</a></header>
+<main id="main">
+<article class="page-legale">
+<span class="eyebrow">BARTHE CHARPENTE · INFORMATIONS LÉGALES</span>
+<h1>Mentions légales</h1>
+<section><h2>Éditeur du site</h2>
+<p><strong>Josselyn Barthe, entrepreneur individuel (EI)</strong>, exerçant sous le nom Barthe Charpente.<br>
+Adresse : 93 rue Jean Monnet, 38920 Crolles, France<br>
+Téléphone : <a href="tel:+33687735178">06 87 73 51 78</a><br>
+E-mail : <a href="mailto:contact@barthecharpente.fr">contact@barthecharpente.fr</a></p>
+<p>SIREN : 914 193 958 — SIRET du siège : 914 193 958 00016<br>
+Immatriculé au registre national des entreprises (RNE).<br>
+TVA non applicable, article 293 B du Code général des impôts.</p>
+</section>
+<section><h2>Directeur de la publication</h2>
+<p>Josselyn Barthe.</p></section>
+<section><h2>Hébergeur du site</h2>
+<p>[À CONFIRMER — DAVID : hébergeur du site (nom ou raison sociale, adresse, téléphone)]</p></section>
+<section><h2>Assurance professionnelle</h2>
+<p>Assurance de responsabilité civile décennale : [À CONFIRMER — CLIENT : nom et coordonnées de l’assureur, numéro de contrat, couverture géographique, d’après l’attestation en cours de validité].</p></section>
+<section><h2>Médiation de la consommation</h2>
+<p>En cas de litige, après une réclamation écrite restée sans réponse satisfaisante, vous pouvez recourir gratuitement au médiateur de la consommation : [À CONFIRMER — CLIENT : nom, adresse et site internet du médiateur auquel l’entreprise adhère].</p></section>
+<section><h2>Conception du site</h2>
+<p>Site conçu et réalisé par <a href="https://belledevanture.fr" target="_blank" rel="noopener">Belle Devanture</a>.</p></section>
+<section><h2>Photographies et logo</h2>
+<p>Logo, photographies des chantiers et portraits : Barthe Charpente. Le logo de l’en-tête est la version blanche du logo officiel, sans modification du dessin. La photographie d’accueil représente Josselyn Barthe (photographie originale : [À CONFIRMER — CLIENT : auteur de la photographie]). Son cadrage et sa luminosité sont ajustés à l’affichage, sans retouche du visage.</p>
+<p>Toute reproduction des textes, photographies et du logo sans l’accord de Josselyn Barthe est interdite.</p></section>
+<section><h2>Illustration 3D et cartographie</h2><p>La maison en 3D de la section « Les gestes du charpentier » est une illustration : ce n’est ni une photographie ni un chantier réel de l’entreprise. L’animation d’ouverture trace un dessin au trait du logo.</p><p>Relief et photographies aériennes de la vallée : © IGN – RGE ALTI®, BD ORTHO® (Licence Ouverte Etalab 2.0).</p></section>
+<section><h2>Données personnelles et cookies</h2>
+<p>Voir la page <a href="../politique-confidentialite/">Confidentialité</a>.</p></section>
+</article>
+</main>
+<footer class="footer"><div class="footer-identity"><a class="footer-brand" href="../" aria-label="Barthe Charpente, accueil"><img src="../assets/logo-barthe-original.png" alt="Logo officiel de Barthe Charpente" width="512" height="512" loading="lazy"></a><p>Du bois.<br>Des liens qui durent.</p><span>CROLLES, ISÈRE<br>AU PIED DES ALPES</span></div><div class="footer-bottom"><p class="bd-signature">© <span data-annee>2026</span> Barthe Charpente — Digital experience by <a href="https://belledevanture.fr" target="_blank" rel="noopener">Belle Devanture</a></p><span>LE BOIS. EN GRAND.</span><a href="../mentions-legales/">Mentions légales</a><a href="../politique-confidentialite/">Confidentialité</a><button type="button" class="bd-cookies" data-bd-cookies>Gérer mes cookies</button><a href="../">Retour à l’accueil</a></div></footer>
+<a class="barre-appel" href="tel:+33687735178"><span>Appeler Josselyn</span><span>06 87 73 51 78</span></a>
+<div class="bd-consentement" role="region" aria-label="Vos choix sur les cookies" data-bd-consentement data-mesure="" data-barre-appel=".barre-appel" hidden>
+<div class="bd-consentement__interieur">
+<p class="bd-consentement__texte">Nous mesurons la fréquentation de ce site et les erreurs rencontrées avec Google Analytics, uniquement si vous l’acceptez. Vous pouvez changer d’avis à tout moment avec le lien « Gérer mes cookies » en bas de page. <a href="../politique-confidentialite/#cookies">En savoir plus</a></p>
+<div class="bd-consentement__actions"><button type="button" class="bd-consentement__bouton" data-choix="refuse">Refuser</button><button type="button" class="bd-consentement__bouton" data-choix="accepte">Accepter</button></div>
+</div>
+</div>
+</body></html>
