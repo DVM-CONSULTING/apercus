@@ -1,7 +1,7 @@
 /*
  * « En route avec CLT » : entre le départ et la livraison, la route vue du ciel.
- * Le porte-engins (pelle chargée) entre par le haut de l'écran, descend la route à droite au rythme du
- * défilement, puis sort entièrement par le bas ; les quatre étapes s'affichent une à une à gauche.
+ * Le porte-engins (pelle chargée) sort de derrière le titre, prend le virage, descend la route à droite au
+ * rythme du défilement, puis sort entièrement par le bas ; les quatre étapes s'affichent une à une à gauche.
  * Calculs purs (sample) testés ; le dessin est construit au chargement (décoratif, aria-hidden).
  */
 (function (root) {
@@ -10,20 +10,28 @@
   const ease = n => { const t = clamp(n); return t * t * t * (10 + t * (-15 + 6 * t)); };
   const mix = (a, b, t) => a + (b - a) * t;
   const ROAD_X = 1200, ROAD_W = 150, WORLD_W = 1600, WORLD_H = 4300;
-  /* Tracé : une descente verticale qui commence au-dessus du monde visible et finit en dessous :
-     le camion sort du haut de l'écran (comme d'un tunnel) et quitte la route par le bas. */
+  /* Tracé : arrivée par la gauche (sous le bloc de titre), virage, puis longue descente verticale
+     qui dépasse le bas du monde visible : le camion sort de derrière le titre et quitte la route par le bas. */
   const OUT = 400;
   function buildPath() {
     const pts = [];
-    for (let y = -OUT; y <= WORLD_H + OUT; y += 20) pts.push({ x: ROAD_X, y });
+    for (let x = -600; x <= 520; x += 20) pts.push({ x, y: 230 });
+    const p0 = { x: 520, y: 230 }, c1 = { x: 940, y: 230 }, c2 = { x: ROAD_X, y: 330 }, p3 = { x: ROAD_X, y: 700 };
+    for (let i = 1; i <= 60; i++) {
+      const t = i / 60, u = 1 - t;
+      pts.push({ x: u * u * u * p0.x + 3 * u * u * t * c1.x + 3 * u * t * t * c2.x + t * t * t * p3.x,
+        y: u * u * u * p0.y + 3 * u * u * t * c1.y + 3 * u * t * t * c2.y + t * t * t * p3.y });
+    }
+    for (let y = 720; y <= WORLD_H + OUT; y += 20) pts.push({ x: ROAD_X, y });
     const lengths = [0];
     for (let i = 1; i < pts.length; i++) lengths.push(lengths[i - 1] + Math.hypot(pts[i].x - pts[i - 1].x, pts[i].y - pts[i - 1].y));
     const d = `M${pts.map(p => `${p.x.toFixed(1)} ${p.y.toFixed(1)}`).join('L')}`;
     return { pts, lengths, length: lengths[lengths.length - 1], d };
   }
   const path = buildPath();
-  // Camion long de 338 unités (−166 à +172 autour de son centre) : caché au départ et à l'arrivée.
-  const START = OUT - 200, END = path.length - (OUT - 200);
+  // Camion long de 338 unités (−166 à +172 autour de son centre). Départ : l'avant à x = 340, encore sous le bloc
+  // de titre (opaque jusqu'à x ≈ 360 à 530 selon l'écran). Arrivée : l'arrière 34 unités sous le bas du monde.
+  const START = 168 + 600, END = path.length - (OUT - 200);
   function pointAt(distance) {
     const L = Math.max(0, Math.min(path.length, distance));
     let i = path.lengths.findIndex(v => v >= L);
@@ -87,7 +95,7 @@
   function sceneMarkup() {
     const half = ROAD_W / 2;
     const trees = [];
-    for (let y = 60; y < WORLD_H; y += 260) {
+    for (let y = 900; y < WORLD_H; y += 260) {
       trees.push([ROAD_X - half - 70 - (y * 7 % 90), y], [ROAD_X + half + 60 + (y * 11 % 70), y + 120]);
     }
     const tree = ([x, y]) => `<g transform="translate(${x} ${y})"><circle r="30" fill="#00000014" cx="6" cy="8"/><circle r="28" fill="#c9c7c1"/><circle r="17" cx="-6" cy="-6" fill="#d8d6d0"/></g>`;
