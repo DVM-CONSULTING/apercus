@@ -192,14 +192,20 @@
     const baseline = pad + (lineHeight - (ascent + descent)) / 2 + ascent;
     ctx.setTransform(1, 0, -.2, 1, .2 * baseline, 0);
     let x = mark.offsetLeft;
-    const draw = (text, px, spacing, color) => {
-      ctx.font = `900 ${px}px ${family}`; ctx.fillStyle = color;
-      for (const ch of text) { ctx.fillText(ch, x, baseline); x += ctx.measureText(ch).width + spacing * px; }
+    const draw = (text, px, spacing, color, seal = 0) => {
+      ctx.font = `900 ${px}px ${family}`; ctx.fillStyle = color; ctx.strokeStyle = color;
+      ctx.lineWidth = seal; ctx.lineJoin = 'round';
+      for (const ch of text) {
+        ctx.fillText(ch, x, baseline);
+        // Les deux barres se chevauchent : un léger contour referme le filet vide entre elles (sinon, trous de points).
+        if (seal) ctx.strokeText(ch, x, baseline);
+        x += ctx.measureText(ch).width + spacing * px;
+      }
     };
     draw('CLT', fontSize, -.08, '#fff');
     x += .02 * fontSize * .72;
-    draw('//', fontSize * .72, -.18, '#e32735');
     const step = Math.max(3.4, fontSize / 72);
+    draw('//', fontSize * .72, -.18, '#e32735', Math.max(2, step * .6));
     const grid = dotGrid(ctx.getImageData(0, 0, w, h).data, w, h, step);
     if (grid.xs.length < 40) { mark.classList.remove('footer-dots-ready'); return; } // rien à dessiner : on garde le texte
     state = createState(grid);
