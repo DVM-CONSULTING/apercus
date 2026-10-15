@@ -95,11 +95,17 @@ function sortieHero() {
 // la hauteur où la photo se colle (son bas sur le bas de l'écran) et, si le navigateur ne sait pas
 // animer selon le défilement, l'assombrissement (opacité seule, peu coûteuse).
 function rideauHero() {
-  const hero = $('.hero'), voile = $('.hero-voile');
-  if (!hero || !$('.hero-rideau')) return;
-  const caler = () => hero.style.setProperty('--hero-haut', `${Math.min(0, innerHeight - hero.offsetHeight)}px`);
+  const hero = $('.hero'), voile = $('.hero-voile'), rideau = $('.hero-rideau'), suite = $('#atelier');
+  if (!hero || !rideau || !suite) return;
+  // la photo reste en place sur la hauteur de l'écran, mais jamais plus longtemps que la section qui la recouvre
+  // n'est haute (sur téléphone, « L'esprit Barthe » est plus courte que l'écran)
+  const caler = () => {
+    hero.style.setProperty('--hero-haut', `${Math.min(0, innerHeight - hero.offsetHeight)}px`);
+    rideau.style.setProperty('--rideau-espace', `${Math.min(innerHeight, suite.offsetHeight)}px`);
+  };
   caler();
   addEventListener('resize', caler, { passive: true });
+  new ResizeObserver(caler).observe(suite);
   if (voile && !CSS.supports('animation-timeline: view()')) {
     gsap.fromTo(voile, { opacity: 0 }, { opacity: 0.7, ease: 'none', scrollTrigger: { trigger: '#atelier', start: 'top bottom', end: 'top top', scrub: true } });
   }

@@ -98,8 +98,10 @@ html.mo .ligne-masque{overflow:hidden;padding-bottom:.08em;margin-bottom:-.08em}
    navigateur, donc fluide), « L'esprit Barthe » monte par-dessus et la photo s'assombrit doucement.
    L'espace ajouté sous la photo (100svh) est repris par la marge négative : la page garde sa longueur. */
 .hero-voile{position:absolute;inset:0;z-index:6;background:#0b0c0b;opacity:0;pointer-events:none}
-html.mo .hero-rideau{margin-bottom:-100svh}
-html.mo .hero-rideau-espace{height:100svh}
+/* durée de l'effet = hauteur de l'écran, sans dépasser la hauteur de la section qui recouvre (motion.js) :
+   la photo ne doit jamais déborder sous elle, sur le bandeau qui suit */
+html.mo .hero-rideau{margin-bottom:calc(-1 * var(--rideau-espace,100svh))}
+html.mo .hero-rideau-espace{height:var(--rideau-espace,100svh)}
 html.mo .hero-rideau .hero{position:sticky;top:var(--hero-haut,0px);background:#0b0c0b}
 html.mo #atelier{position:relative;z-index:2;border-radius:24px 24px 0 0;box-shadow:0 -22px 50px rgba(0,0,0,.3)}
 @keyframes hero-assombrir{to{opacity:.7}}
