@@ -21,6 +21,15 @@ const pointeurFin = matchMedia('(hover: hover) and (pointer: fine)').matches;
 const economie = navigator.connection?.saveData === true;
 const { gsap, ScrollTrigger, SplitText, DrawSVGPlugin } = window;
 
+// hauteur d'écran stable sur iPhone (100svh : sans la barre d'adresse qui apparaît et disparaît au défilement)
+const hauteurEcran = (() => {
+  let sonde = null;
+  return () => {
+    if (!sonde) { sonde = document.createElement('div'); sonde.setAttribute('aria-hidden', 'true'); sonde.style.cssText = 'position:absolute;left:-9999px;top:0;width:1px;height:100svh;visibility:hidden;pointer-events:none'; document.body.append(sonde); }
+    return sonde.offsetHeight || innerHeight;
+  };
+})();
+
 function finIntro() {
   html.classList.remove('avec-ouverture');
   try { sessionStorage.setItem('bc-intro', '1'); } catch {}
@@ -101,8 +110,8 @@ function rideauHero() {
   // la photo reste en place sur la hauteur de l'écran, mais jamais plus longtemps que la section qui la recouvre
   // n'est haute (sur téléphone, « L'esprit Barthe » est plus courte que l'écran)
   const caler = () => {
-    hero.style.setProperty('--hero-haut', `${Math.min(0, innerHeight - hero.offsetHeight)}px`);
-    rideau.style.setProperty('--rideau-espace', `${Math.min(innerHeight, suite.offsetHeight)}px`);
+    hero.style.setProperty('--hero-haut', `${Math.min(0, hauteurEcran() - hero.offsetHeight)}px`);
+    rideau.style.setProperty('--rideau-espace', `${Math.min(hauteurEcran(), suite.offsetHeight)}px`);
   };
   caler();
   addEventListener('resize', caler, { passive: true });
@@ -254,7 +263,7 @@ function savoirFaire() {
   // tient dans l'écran ; sinon quand son bas arrive en bas de l'écran (au-dessus de la barre d'appel), pour
   // être lue en entier. La suivante monte par-dessus ; la précédente s'assombrit et recule un peu.
   if (!cartes.length) return;
-  const haut = (carte, i) => Math.min(84 + i * 16, innerHeight - carte.offsetHeight - (innerWidth <= 760 ? 92 : 24));
+  const haut = (carte, i) => Math.min(84 + i * 16, hauteurEcran() - carte.offsetHeight - (innerWidth <= 760 ? 92 : 24));
   const caler = () => cartes.forEach((carte, i) => carte.style.setProperty('--sf-haut', `${haut(carte, i)}px`));
   caler();
   addEventListener('resize', caler, { passive: true });
