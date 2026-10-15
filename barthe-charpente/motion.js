@@ -9,7 +9,8 @@
  *   4. Bandeau des savoir-faire qui défile, accéléré par la vitesse du défilement.
  *   5. Maison à ossature bois en 3D qui se construit (assets/maison3d.js, chargée à la demande).
  *   6. Galerie : inclinaison selon la vitesse, parallaxe des photos ; portrait dévoilé lame par lame.
- *   6 bis. Savoir-faire : cartes empilées, épures tracées, photos en parallaxe ; formulaire animé.
+ *   6 bis. Savoir-faire : cartes qui montent l'une sur l'autre (position collante, téléphone et ordinateur),
+ *      épures tracées, photos en parallaxe ; formulaire animé.
  *   7. Curseur et boutons aimantés (ordinateur), grande signature du pied de page.
  */
 const $ = (s, r = document) => r.querySelector(s);
@@ -248,15 +249,23 @@ function savoirFaire() {
       gsap.to(traits, { drawSVG: '100%', duration: 0.9, ease: 'power2.inOut', stagger: { amount: 1.6 }, scrollTrigger: { trigger: carte, start: 'top 70%', once: true } });
     }
   });
-  // grand écran : les cartes s'empilent (épinglées l'une après l'autre) et la précédente se replie doucement
-  gsap.matchMedia().add('(min-width: 1001px) and (min-height: 760px)', () => {
-    const haut = (i) => 84 + i * 16;
-    const derniere = cartes[cartes.length - 1];
-    cartes.slice(0, -1).forEach((carte, i) => {
-      ScrollTrigger.create({ trigger: carte, start: () => `top ${haut(i)}px`, endTrigger: derniere, end: () => `top ${haut(cartes.length - 1)}px`, pin: true, pinSpacing: false });
-      gsap.fromTo($('.sf-interieur', carte), { scale: 1, filter: 'brightness(1)' }, { scale: 0.93, filter: 'brightness(0.62)', ease: 'none', immediateRender: false,
-        scrollTrigger: { trigger: cartes[i + 1], start: 'top bottom', end: () => `top ${haut(i + 1)}px`, scrub: true } });
-    });
+  // les cartes montent l'une sur l'autre, sur téléphone comme sur ordinateur. Chaque carte se colle
+  // (position: sticky, motion.css : gérée par le navigateur, donc fluide) : en haut, en léger décalé, si elle
+  // tient dans l'écran ; sinon quand son bas arrive en bas de l'écran (au-dessus de la barre d'appel), pour
+  // être lue en entier. La suivante monte par-dessus ; la précédente s'assombrit et recule un peu.
+  if (!cartes.length) return;
+  const haut = (carte, i) => Math.min(84 + i * 16, innerHeight - carte.offsetHeight - (innerWidth <= 760 ? 92 : 24));
+  const caler = () => cartes.forEach((carte, i) => carte.style.setProperty('--sf-haut', `${haut(carte, i)}px`));
+  caler();
+  addEventListener('resize', caler, { passive: true });
+  new ResizeObserver(caler).observe(cartes[0].parentElement);
+  cartes.slice(0, -1).forEach((carte, i) => {
+    const interieur = $('.sf-interieur', carte), voile = document.createElement('div');
+    voile.className = 'sf-voile'; voile.setAttribute('aria-hidden', 'true'); interieur.append(voile);
+    const suivante = cartes[i + 1];
+    gsap.timeline({ scrollTrigger: { trigger: suivante, start: 'top bottom', end: () => `top ${haut(suivante, i + 1)}px`, scrub: true, invalidateOnRefresh: true } })
+      .fromTo(voile, { opacity: 0 }, { opacity: 0.6, ease: 'none' }, 0)
+      .fromTo(interieur, { scale: 1 }, { scale: 0.94, ease: 'none', immediateRender: false }, 0);
   });
 }
 

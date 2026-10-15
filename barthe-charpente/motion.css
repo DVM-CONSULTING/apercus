@@ -117,3 +117,8 @@ html.mo #atelier{position:relative;z-index:2;border-radius:24px 24px 0 0;box-sha
   html.mo .hero-content{animation:hero-sortie linear both;animation-timeline:scroll(root);animation-range:0 80svh}
   html.mo .hero-defiler{animation:hero-defiler-sortie linear both;animation-timeline:scroll(root);animation-range:0 15svh}
 }
+
+/* Cartes de savoir-faire qui montent l'une sur l'autre (motion.js, savoirFaire) */
+html.mo .sf-carte{position:sticky;top:var(--sf-haut,84px)}
+html.mo .sf-interieur{position:relative}
+.sf-voile{position:absolute;inset:0;z-index:4;background:#0b0c0b;opacity:0;pointer-events:none}
