@@ -1,0 +1,107 @@
+<!DOCTYPE html><html lang="fr"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width, initial-scale=1"><title>Accès à l’aperçu — PSK FOOD</title><meta name="description" content="Accès à l’aperçu du site de PSK FOOD avant l’ouverture."><link rel="canonical" href="https://pskfood.fr/"><meta property="og:title" content="Accès à l’aperçu — PSK FOOD"><meta property="og:description" content="Accès à l’aperçu du site de PSK FOOD avant l’ouverture."><meta property="og:type" content="website"><meta property="og:site_name" content="PSK FOOD"><meta property="og:url" content="https://pskfood.fr/"><meta name="twitter:card" content="summary_large_image"><meta property="og:locale" content="fr_FR"><meta property="og:image" content="https://pskfood.fr/images/heros.webp"><meta name="theme-color" content="#000000"><link rel="icon" href="../favicon.png" type="image/png"><link rel="apple-touch-icon" href="../apple-touch-icon.png"><script>
+      document.documentElement.classList.add('js');
+    </script><meta name="google-site-verification" content="9TO8E-xws495FpOmifeTJBxMrG_ihnzfx6-JObui_IQ"><meta name="robots" content="noindex, nofollow"><!-- Kit de mesure Belle Devanture v2 : rien n'est envoyé à Google avant l'accord du visiteur -->
+<script>
+(function () {
+  var ID = 'G-80M95K1MSD';
+  window.dataLayer = window.dataLayer || [];
+  window.gtag = window.gtag || function () { dataLayer.push(arguments); };
+  // consentement refusé par défaut, sauf si le site le gère déjà (Complianz, Site Kit…) : on ne le redéfinit jamais
+  var managed = [].some.call(window.dataLayer, function (a) { return a && a[0] === 'consent' && a[1] === 'default'; });
+  if (!managed) gtag('consent', 'default', { analytics_storage: 'denied', ad_storage: 'denied', ad_user_data: 'denied', ad_personalization: 'denied' });
+  var on = false, queue = [], errors = 0;
+  // rien ne part avant l'accord : les signaux attendent (20 au plus) et partent à l'accord, sinon jamais
+  function send(name, params) { if (on) gtag('event', name, params || {}); else if (queue.length < 20) queue.push([name, params || {}]); }
+  // jamais de donnée personnelle : e-mails et longs numéros masqués, 100 caractères au plus
+  function clean(v) { return String(v || '').replace(/[\w.+-]+@[\w-]+\.[\w.]+/g, '[e-mail]').replace(/\d{6,}/g, '[n]').slice(0, 100); }
+  // à appeler par le bandeau de consentement quand le visiteur accepte la mesure d'audience (à chaque page tant que son accord vaut)
+  window.bdAnalyticsConsent = function () {
+    if (on) return;
+    on = true;
+    gtag('consent', 'update', { analytics_storage: 'granted' });
+    // la balise Google du site est déjà là (Site Kit, Tag Manager…) : on ne la charge pas une seconde fois ; une balise
+    // d'un autre usage seulement (Google Ads…) ne mesure pas l'audience : on y ajoute alors la mesure du site
+    var tags = [].map.call(document.querySelectorAll('script[src*="googletagmanager.com/gtag/js"], script[src*="googletagmanager.com/gtm.js"]'), function (t) { return (/[?&]id=([^&]+)/.exec(t.src) || [])[1] || ''; });
+    var configured = [].some.call(window.dataLayer, function (a) { return a && a[0] === 'config' && a[1] === ID; });
+    // cookie de mesure limité à 390 jours (CNIL : 13 mois au plus ; Google : 2 ans par défaut)
+    if (!tags.length) {
+      gtag('js', new Date());
+      gtag('config', ID, { cookie_expires: 33696000 });
+      var s = document.createElement('script');
+      s.async = true;
+      s.src = 'https://www.googletagmanager.com/gtag/js?id=' + ID;
+      document.head.appendChild(s);
+    } else if (!configured && tags.every(function (t) { return t && t !== ID && !/^GTM?-/.test(t); })) {
+      gtag('config', ID, { cookie_expires: 33696000 });
+    }
+    var first = true;
+    try { first = !sessionStorage.getItem('bd_kit'); sessionStorage.setItem('bd_kit', '1'); } catch (e) {}
+    if (first) gtag('event', 'bd_kit', { kit_version: '2' });
+    queue.splice(0).forEach(function (q) { gtag('event', q[0], q[1]); });
+  };
+  // à appeler par le bandeau quand le visiteur retire son accord : plus rien ne part ensuite, consentement Google refusé
+  window.bdAnalyticsRevoke = function () {
+    on = false;
+    queue.length = 0;
+    gtag('consent', 'update', { analytics_storage: 'denied' });
+  };
+  // formulaires : à appeler par le site après un envoi réellement réussi, ou quand l'envoi échoue
+  window.bdFormSent = function (name) { send('bd_form_sent', { form_name: clean(name || 'formulaire').slice(0, 40) }); };
+  window.bdFormFailed = function (name) { send('bd_form_failed', { form_name: clean(name || 'formulaire').slice(0, 40) }); };
+  // page introuvable : automatique sur WordPress (classe error404) ou avec <body data-bd-404>, sinon appeler bdNotFound()
+  window.bdNotFound = function () { send('bd_404'); };
+  document.addEventListener('DOMContentLoaded', function () {
+    var b = document.body;
+    if (b && (b.classList.contains('error404') || b.hasAttribute('data-bd-404'))) window.bdNotFound();
+    // WPForms sans AJAX : la page se recharge et affiche sa confirmation
+    if (document.querySelector('.wpforms-confirmation-container-full, .wpforms-confirmation-container')) window.bdFormSent('contact');
+  });
+  // appuis sur un numéro de téléphone ou une adresse e-mail (un clic n'est pas un contact confirmé)
+  document.addEventListener('click', function (e) {
+    var a = e.target && e.target.closest ? e.target.closest('a[href^="tel:"], a[href^="mailto:"]') : null;
+    if (a) send(a.getAttribute('href').indexOf('tel:') === 0 ? 'bd_phone_click' : 'bd_email_click');
+  }, true);
+  // bugs vus par les visiteurs : erreurs JavaScript et fichiers qui ne se chargent pas (5 au plus par page)
+  window.addEventListener('error', function (e) {
+    if (errors >= 5) return;
+    var t = e.target;
+    if (t && t !== window && (t.src || t.href)) { errors++; send('bd_resource_error', { error_message: clean(String(t.src || t.href).split('?')[0]) }); return; }
+    errors++;
+    send('bd_js_error', { error_message: clean(e.message) });
+  }, true);
+  window.addEventListener('unhandledrejection', function (e) {
+    if (errors >= 5) return;
+    errors++;
+    send('bd_js_error', { error_message: clean(e.reason && e.reason.message ? e.reason.message : e.reason) });
+  });
+  // bandeaux courants : Complianz (WordPress) — accord déjà donné ou donné pendant la visite
+  document.addEventListener('cmplz_fire_categories', function (e) {
+    var c = e.detail && e.detail.categories;
+    if (c && c.indexOf('statistics') >= 0) window.bdAnalyticsConsent();
+  });
+  // formulaires des extensions WordPress courantes et rendez-vous Calendly : comptés sans rien ajouter
+  document.addEventListener('wpcf7mailsent', function () { window.bdFormSent('contact'); });
+  document.addEventListener('wpcf7mailfailed', function () { window.bdFormFailed('contact'); });
+  window.addEventListener('message', function (e) {
+    if (e.origin === 'https://calendly.com' && e.data && e.data.event === 'calendly.event_scheduled') window.bdFormSent('rendez-vous');
+  });
+  document.addEventListener('DOMContentLoaded', function () {
+    var $ = window.jQuery;
+    if (!$) return;
+    $(document).on('submit_success', function () { window.bdFormSent('contact'); }); // Elementor
+    $(document).on('wpformsAjaxSubmitSuccess', function () { window.bdFormSent('contact'); }); // WPForms
+    $(document).on('fluentform_submission_success', function () { window.bdFormSent('contact'); }); // Fluent Forms
+  });
+})();
+</script>
+<!-- Le bandeau de consentement appelle bdAnalyticsConsent() quand le visiteur accepte la mesure d'audience
+     (Complianz : automatique), et bdAnalyticsRevoke() s'il retire son accord. -->
+<link rel="stylesheet" href="../_astro/Base.r66oo0e7.css"></head><body><a class="evitement" href="#contenu">Aller au contenu</a><header class="entete" data-entete><a class="entete__marque" href="../" aria-label="PSK FOOD — accueil"><img src="../images/logo-psk-food-160.webp" alt="" width="80" height="80"></a><nav class="entete__nav" aria-label="Menu principal"><ul><li><a href="../carte/">La carte</a></li><li><a href="../#pizzas">Pizzas</a></li><li><a href="../#burgers">Burgers</a></li><li><a href="../#krousty">Krousty</a></li><li><a href="../#desserts">Desserts</a></li><li><a href="../#infos">Infos</a></li></ul></nav><a class="entete__appel" href="tel:+33476459498"><svg viewBox="0 0 24 24" aria-hidden="true"><path fill="currentColor" d="M6.6 10.8a15.1 15.1 0 0 0 6.6 6.6l2.2-2.2c.3-.3.7-.4 1-.2 1.1.4 2.3.6 3.6.6.6 0 1 .4 1 1V20c0 .6-.4 1-1 1A17 17 0 0 1 3 4c0-.6.4-1 1-1h3.5c.6 0 1 .4 1 1 0 1.3.2 2.5.6 3.6.1.3 0 .7-.2 1z"></path></svg><span class="entete__appel-texte">Commander<small>04 76 45 94 98</small></span></a><button class="entete__burger" type="button" aria-expanded="false" aria-controls="menu-mobile" data-burger><span></span><span></span><span></span><span class="visuel-cache">Ouvrir le menu</span></button></header><div class="menu-mobile" id="menu-mobile" hidden data-menu><nav aria-label="Menu principal (téléphone)"><ul><li style="--i:0"><a href="../">Accueil</a></li><li style="--i:1"><a href="../carte/">La carte</a></li><li style="--i:2"><a href="../#pizzas">Pizzas</a></li><li style="--i:3"><a href="../#burgers">Burgers</a></li><li style="--i:4"><a href="../#krousty">Krousty</a></li><li style="--i:5"><a href="../#desserts">Desserts</a></li><li style="--i:6"><a href="../#infos">Infos</a></li></ul></nav><div class="menu-mobile__infos"><a class="menu-mobile__appel" href="tel:+33476459498">Appeler · 04 76 45 94 98</a><p>9 rue Joliot-Curie, 38190 Froges</p><p>Midi 11 h 30 – 14 h · Soir 17 h 30 – 21 h 30</p></div></div><div class="tache" aria-hidden="true" data-tache></div><div class="page" data-page><main id="contenu"><section class="page-titre"><h1>Accès à l’aperçu</h1><p>Bienvenue ! Le site complet s’ouvre…</p><p><a class="lien-action" href="../">Entrer sur le site</a></p></section><script>
+    try { localStorage.setItem('psk-prive', '1'); } catch (e) {}
+    location.replace(document.querySelector('.page-titre a').href);
+  </script></main></div><footer class="pied sur-sombre" data-pied data-fond="sombre"><div class="pied__galerie" aria-hidden="true"><img src="../images/frites.webp" alt="" loading="lazy" width="540" height="314"><img src="../images/tenders.webp" alt="" loading="lazy" width="630" height="300"><img src="../images/burger.webp" alt="" loading="lazy" width="1420" height="1130"><img src="../images/tiramisus-maison.webp" alt="" loading="lazy" width="1000" height="670"><img src="../images/krousty.webp" alt="" loading="lazy" width="820" height="1070"></div><div class="pied__marque-bloc"><p class="pied__marque" aria-hidden="true">PSK FOOD</p><p class="pied__devise">Pizza · Smash · Krousty</p></div><div class="pied__infos"><div class="pied__bloc"><svg class="pied__picto" viewBox="0 0 24 24" aria-hidden="true"><path d="M12 21s-7-6.2-7-11.5A7 7 0 0 1 19 9.5C19 14.8 12 21 12 21z"></path><circle cx="12" cy="9.5" r="2.5"></circle></svg><h2>Nous trouver</h2><p>9 rue Joliot-Curie<br>38190 Froges</p><a class="lien-action" href="https://www.google.com/maps/search/?api=1&amp;query=PSK%20FOOD%209%20rue%20Joliot-Curie%2038190%20Froges" target="_blank" rel="noopener">Itinéraire</a></div><div class="pied__bloc"><svg class="pied__picto" viewBox="0 0 24 24" aria-hidden="true"><circle cx="12" cy="12" r="9"></circle><path d="M12 7v5l3 2"></path></svg><h2>Horaires</h2><dl class="pied__horaires"><div><dt>Midi<span>du lundi au vendredi</span></dt><dd>11 h 30 – 14 h</dd></div><div><dt>Soir<span>7 jours sur 7</span></dt><dd>17 h 30 – 21 h 30</dd></div></dl><a class="lien-action" href="tel:+33476459498">04 76 45 94 98</a></div><div class="pied__bloc"><svg class="pied__picto" viewBox="0 0 24 24" aria-hidden="true"><path d="M12 20s-7-4.4-7-10a4 4 0 0 1 7-2.6A4 4 0 0 1 19 10c0 5.6-7 10-7 10z"></path></svg><h2>Suivez-nous</h2><ul class="pied__reseaux"><li><a href="https://www.instagram.com/psk_food_froges/" rel="noopener" target="_blank" aria-label="Instagram de PSK FOOD"><svg viewBox="0 0 24 24" aria-hidden="true"><rect x="3.5" y="3.5" width="17" height="17" rx="5"></rect><circle cx="12" cy="12" r="4"></circle><circle cx="17.3" cy="6.7" r="1" class="plein"></circle></svg></a></li></ul><p class="pied__pseudo">@psk_food_froges</p></div></div><div class="pied__legal"><ul class="pied__liens"><li><a href="../carte/">La carte</a></li><li><a href="../contact/">Contact</a></li><li><a href="../mentions-legales/">Mentions légales</a></li><li><a href="../politique-confidentialite/">Confidentialité</a></li><li><button type="button" class="bd-cookies" data-bd-cookies data-astro-cid-t3b3qfku>Gérer mes cookies</button></li></ul><p class="bd-signature pied__signature">© <span data-annee>2026</span> PSK FOOD — Digital experience by <a href="https://belledevanture.fr" target="_blank" rel="noopener">Belle Devanture</a></p><script>
+  document.querySelectorAll('[data-annee]').forEach(function (e) {
+    e.textContent = String(new Date().getFullYear());
+  });
+</script><!-- Style GLOBAL, pas scopé : un style scopé ajouterait un attribut
+     data-astro-cid-… dans le lien et casserait le format exact (BD-SIGN-01). --></div></footer><div class="barre-appel"><a href="tel:+33476459498"><svg class="barre-appel__icone" viewBox="0 0 24 24" aria-hidden="true"><path fill="currentColor" d="M6.6 10.8a15.1 15.1 0 0 0 6.6 6.6l2.2-2.2c.3-.3.7-.4 1-.2 1.1.4 2.3.6 3.6.6.6 0 1 .4 1 1V20c0 .6-.4 1-1 1A17 17 0 0 1 3 4c0-.6.4-1 1-1h3.5c.6 0 1 .4 1 1 0 1.3.2 2.5.6 3.6.1.3 0 .7-.2 1z"></path></svg><span>Appeler pour commander<small>04 76 45 94 98</small></span></a></div><div class="bd-consentement" role="region" aria-label="Vos choix sur les cookies" data-bd-consentement data-barre-appel=".barre-appel" hidden data-astro-cid-t7ctparr><div class="bd-consentement__interieur" data-astro-cid-t7ctparr><p class="bd-consentement__texte" data-astro-cid-t7ctparr>Nous mesurons la fréquentation de ce site et les erreurs rencontrées avec Google Analytics, uniquement si vous l’acceptez. Vous pouvez changer d’avis à tout moment avec le lien « Gérer mes cookies » en bas de page. <a href="../politique-confidentialite/#cookies" data-astro-cid-t7ctparr>En savoir plus</a></p><div class="bd-consentement__actions" data-astro-cid-t7ctparr><button type="button" class="bd-consentement__bouton" data-choix="refuse" data-astro-cid-t7ctparr>Refuser</button><button type="button" class="bd-consentement__bouton" data-choix="accepte" data-astro-cid-t7ctparr>Accepter</button></div></div></div><script type="module">var e=`bd-consentement`;function t(){try{let t=localStorage.getItem(e);if(!t)return null;let{choix:n,date:r}=JSON.parse(t);return n!==`accepte`&&n!==`refuse`||typeof r!=`number`||Date.now()-r>157248e5?null:n}catch{return null}}function n(t){try{localStorage.setItem(e,JSON.stringify({choix:t,date:Date.now()}))}catch{}}function r(){let e=window;typeof e.bdAnalyticsConsent==`function`&&e.bdAnalyticsConsent()}function i(){let e=window;typeof e.bdAnalyticsRevoke==`function`&&e.bdAnalyticsRevoke()}var a=document.querySelector(`[data-bd-consentement]`);function o(){if(!a||a.hidden)return;let e=a.dataset.barreAppel||`.barre-appel`,t=document.querySelector(e),n=t!==null&&getComputedStyle(t).display!==`none`?t.getBoundingClientRect().height:0;a.style.insetBlockEnd=`calc(${Math.ceil(n)}px + 0.75rem)`}function s(){a&&(a.hidden=!1,o())}function c(){a&&(s(),a.querySelector(`[data-choix="refuse"]`)?.focus())}if(a){let e=t();e===`accepte`&&r(),e===null&&s(),window.addEventListener(`resize`,o,{passive:!0}),a.addEventListener(`click`,e=>{let o=e.target.closest(`[data-choix]`);if(!o)return;let s=o.dataset.choix,c=t();n(s),a.hidden=!0,s===`accepte`?r():c===`accepte`&&i()}),document.querySelectorAll(`[data-bd-cookies]`).forEach(e=>{e.addEventListener(`click`,c)})}</script><script type="module" src="../_astro/Base.astro_astro_type_script_index_0_lang.LT6CwCvi.js"></script></body></html>
